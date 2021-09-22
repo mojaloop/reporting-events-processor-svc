@@ -1,0 +1,31 @@
+{
+  "name": "reporting-event-processor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "kafkajs": "^1.15.0",
+    "mongodb": "^4.1.1"
+  },
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^2.0.3",
+    "eslint": "^7.32.0",
+    "jest": "^27.2.0",
+    "npm-run-all": "^4.1.5",
+    "standard": "^16.0.3"
+  },
+  "scripts": {
+    "start": "node --unhandled-rejections=strict src/index.js",
+    "producer": "node --experimental-json-modules setup/producer.js",
+    "start:all": "npm-run-all --parallel start producer",
+    "test": "jest",
+    "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js",
+    "standard": "standard",
+    "standard:fix": "standard --fix",
+    "lint": "npm run standard",
+    "lint:fix": "npm run standard:fix"
+  },
+  "author": "",
+  "license": "ISC"
+}
