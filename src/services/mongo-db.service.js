@@ -13,18 +13,18 @@ class MongoDBService {
     try {
       await mongo.connect()
 
-      const res = await mongo.db('Kafka').command({ ping: 1 })
+      const res = await mongo.db(process.env.MONGO_DB_DBNAME).command({ ping: 1 })
 
       if (res.ok === 1) {
         console.log('Connected to Mongo DB')
         result = true
 
-        const collections = await mongo.db('Kafka').listCollections().toArray()
-        if (!collections.find(col => col.name === 'reportingData')) {
-          await createReportingSchema(mongo, 'Kafka', 'reportingData')
+        const collections = await mongo.db(process.env.MONGO_DB_DBNAME).listCollections().toArray()
+        if (!collections.find(col => col.name === process.env.MONGO_DB_COLNAME)) {
+          await createReportingSchema(mongo, process.env.MONGO_DB_DBNAME, process.env.MONGO_DB_COLNAME)
           console.log('Set up Mongo DB Datasets & Schema')
         } else {
-          await applySchema(mongo, 'Kafka', 'reportingData')
+          await applySchema(mongo, process.env.MONGO_DB_DBNAME, process.env.MONGO_DB_COLNAME)
           console.log('Applying Mongo DB Reporting Schema')
         }
       }
@@ -49,7 +49,7 @@ class MongoDBService {
     try {
       await saveClient.connect()
 
-      const collection = await saveClient.db('Kafka').collection('reportingData')
+      const collection = await saveClient.db(process.env.MONGO_DB_DBNAME).collection(process.env.MONGO_DB_COLNAME)
 
       await collection.insertOne(record)
       result = true

@@ -2,11 +2,14 @@ const { MongoClient } = require('mongodb')
 const { createReportingSchema, applySchema } = require('../../src/utilities/mongodb-schema.js')
 const { MongoDBService } = require('../../src/services/mongo-db.service.js')
 
+jestMongoURL = process.env.MONGO_URL;
+
 describe('MongoDB Functionality', () => {
 
   beforeAll(async () => {
-    console.debug(`Testing done on ${process.env.MONGO_URL}`)
-    connection = await MongoClient.connect(process.env.MONGO_URL, {
+    
+    console.debug(`Testing done on ${jestMongoURL}`)
+    connection = await MongoClient.connect(jestMongoURL, {
       useNewUrlParser: true
     })
     db = await connection.db('Test')
@@ -93,7 +96,7 @@ describe('MongoDB Functionality', () => {
   })
 
   it('Initialize service first time', async () => {
-    mongodbService = new MongoDBService(process.env.MONGO_URL)
+    mongodbService = new MongoDBService(jestMongoURL)
     const result = await mongodbService.initialize()
 
     expect(result).toEqual(true);
@@ -105,7 +108,7 @@ describe('MongoDB Functionality', () => {
     const validMockData = processedQuote
     await kafkaCollection.insertOne(validMockData)
 
-    mongodbService = new MongoDBService(process.env.MONGO_URL)
+    mongodbService = new MongoDBService(jestMongoURL)
     const result = await mongodbService.initialize()
 
     expect(result).toEqual(true);
@@ -130,7 +133,7 @@ describe('MongoDB Functionality', () => {
 
 
     mongodbService = new MongoDBService('mongodb://SomeFakeMongoURL')
-    //mongodbService = new MongoDBService(process.env.MONGO_URL)
+    //mongodbService = new MongoDBService(jestMongoURL)
     const result = await mongodbService.initialize()
 
     console.log(result);
