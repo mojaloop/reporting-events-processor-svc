@@ -9,7 +9,6 @@ class MongoDBService {
 
   async initialize () {
     let result = false
-    let error
     const mongo = new MongoClient(this.mongoDBConnectionString)
     try {
       await mongo.connect()
@@ -19,46 +18,41 @@ class MongoDBService {
       if (res.ok === 1) {
         console.log('Connected to Mongo DB')
         result = true
-      }
 
-      const collections = await mongo.db('Kafka').listCollections().toArray()
-      if (!collections.find(col => col.name === 'reportingData')) {
-        await createReportingSchema(mongo, 'Kafka', 'reportingData')
-        console.log('Set up Mongo DB Datasets & Schema')
-      } else {
-        await applySchema(mongo, 'Kafka', 'reportingData')
-        console.log('Applying Mongo DB Reporting Schema')
+        const collections = await mongo.db('Kafka').listCollections().toArray()
+        if (!collections.find(col => col.name === 'reportingData')) {
+          await createReportingSchema(mongo, 'Kafka', 'reportingData')
+          console.log('Set up Mongo DB Datasets & Schema')
+        } else {
+          await applySchema(mongo, 'Kafka', 'reportingData')
+          console.log('Applying Mongo DB Reporting Schema')
+        }
       }
     } catch (err) {
-      error = err
+      const message = 'Failed to initialize MongoDB Service: '
+      console.error(message, err)
     } finally {
       await mongo.close()
     }
 
     if (!result) {
-      let message = 'Failed to connect to MongoDB'
-
-      if (!error) {
-        message += ' due to an unexpected error that was thrown:'
-        console.error(message, error)
-      } else {
-        console.error(message)
-      }
+      const message = 'Could not initialize MongoDB Service'
+      console.error(message)
     }
 
-    this.initialized = result
-
-    return result
+    return (this.initialized = result)
   }
 
   async saveToDB (record) {
     const saveClient = new MongoClient(this.mongoDBConnectionString)
+    let result = false
     try {
       await saveClient.connect()
 
       const collection = await saveClient.db('Kafka').collection('reportingData')
 
       await collection.insertOne(record)
+      result = true
     } catch (error) {
       const newErr = new Error(`Error while attempting to save to Mongodb: ${error.message}`)
 
@@ -68,6 +62,7 @@ class MongoDBService {
     } finally {
       await saveClient.close()
     }
+    return result
   }
 }
 

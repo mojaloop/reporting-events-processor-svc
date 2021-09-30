@@ -20,6 +20,7 @@
     "producer": "node --experimental-json-modules setup/producer.js",
     "start:all": "npm-run-all --parallel start producer",
     "test": "jest",
+    "test:coverage": "npx jest --coverage --verbose",
     "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js",
     "standard": "standard",
     "standard:fix": "standard --fix",

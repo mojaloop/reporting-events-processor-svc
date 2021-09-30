@@ -22,7 +22,7 @@ class KafkaService {
     }
 
     if (!result) {
-      let message = 'Failed to connect to Kafka Client'
+      const message = 'Failed to connect to Kafka Client'
       console.error(message, error)
     }
 

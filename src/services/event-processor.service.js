@@ -16,7 +16,7 @@ class EventProcessorService {
 
   async messageHandler (args) {
     const listeningTopic = process.env.KAFKA_TOPIC_TO_CONSUME || 'topic-event'
-    // Check to make sure you only action the topic you are listening to
+
     if (args.topic === listeningTopic) {
       let msg
 
@@ -57,14 +57,16 @@ class EventProcessorService {
   }
 
   determineEventType (msg) {
-    for (const service of quotesConstants) {
-      if (msg.metadata.trace.service === service) { return eventType.QUOTE }
-    }
-    for (const service of transferConstants) {
-      if (msg.metadata.trace.service === service) { return eventType.TRANSFER }
-    }
-    for (const service of settlementConstants) {
-      if (msg.metadata.trace.service === service) { return eventType.SETTLEMENT }
+    if (msg.metadata?.trace?.service) {
+      for (const service of quotesConstants) {
+        if (msg.metadata.trace.service === service) { return eventType.QUOTE }
+      }
+      for (const service of transferConstants) {
+        if (msg.metadata.trace.service === service) { return eventType.TRANSFER }
+      }
+      for (const service of settlementConstants) {
+        if (msg.metadata.trace.service === service) { return eventType.SETTLEMENT }
+      }
     }
     return eventType.UNSUPPORTED
   }
