@@ -1,5 +1,5 @@
 {
-  "name": "reporting-event-processor",
+  "name": "@mojaloop/reporting-event-processor",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
