@@ -16,13 +16,15 @@ orbs:
 # YAML defaults templates, in alphabetical order
 ##
 defaults_Dependencies: &defaults_Dependencies |
-  apk --no-cache add git
-  apk --no-cache add ca-certificates
-  apk --no-cache add curl
-  apk --no-cache add openssh-client
-  apk add --no-cache -t build-dependencies make gcc g++ python libtool autoconf automake jq
-  npm config set unsafe-perm true
-  npm install -g node-gyp
+  apt-get update
+  apt-get install -y \
+    git \
+    ca-certificates \
+    curl \
+    openssh-client \
+    build-essential \
+    python3 \
+    libtool \
 
 defaults_awsCliDependencies: &defaults_awsCliDependencies |
   apk upgrade --no-cache
@@ -49,11 +51,11 @@ executors:
   default-docker:
     working_directory: /home/circleci/project
     docker:
-      - image: node:lts-alpine
+      - image: node:17
 
   default-machine:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-2004:202010-01
 
 ##
 # Jobs
@@ -77,9 +79,6 @@ jobs:
       - run:
           name: Update NPM install
           command: npm ci
-      - run:
-          name: Delete build dependencies
-          command: apk del build-dependencies
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
@@ -95,9 +94,6 @@ jobs:
       - restore_cache:
           keys:
             - dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: Generate artifacts
-          command: npm run generate
       - run:
           name: Create dir for test results
           command: mkdir -p ./test/results
