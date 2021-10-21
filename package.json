@@ -22,10 +22,8 @@
     "test": "jest",
     "test:coverage": "npx jest --coverage --verbose",
     "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js",
-    "standard": "standard",
-    "standard:fix": "standard --fix",
-    "lint": "npm run standard",
-    "lint:fix": "npm run standard:fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "author": "",
   "license": "ISC"

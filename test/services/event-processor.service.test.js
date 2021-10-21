@@ -95,7 +95,7 @@ describe('Event Processor Service', () => {
 
     messageArgs = {
       topic: 'topic-event',
-      message: { value: newBuff }
+      message: { value: JSON.stringify(newBuff) }
     }
 
     eventProcessor.messageHandler(messageArgs);
@@ -108,7 +108,7 @@ describe('Event Processor Service', () => {
 
     messageArgs = {
       topic: 'topic-event',
-      message: { value: newBuff }
+      message: { value: JSON.stringify(newBuff) }
     }
 
     eventProcessor.messageHandler(messageArgs);
