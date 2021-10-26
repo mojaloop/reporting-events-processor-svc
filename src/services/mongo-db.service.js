@@ -54,7 +54,7 @@ class MongoDBService {
       await collection.insertOne(record)
       result = true
     } catch (error) {
-      const newErr = new Error(`Error while attempting to save to Mongodb: ${error.message}`)
+      const newErr = new Error(`Error while attempting to save to Mongodb: ${error.message}\nRecord:\n${JSON.stringify(record)}\n`)
 
       newErr.origin = error
 
