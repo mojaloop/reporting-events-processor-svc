@@ -2,6 +2,7 @@ const { quotesConstants } = require('../constants/quote-constants')
 const { transferConstants } = require('../constants/transfer-constants')
 const { settlementConstants } = require('../constants/settlement-constants')
 const { eventType } = require('../constants/event-types')
+const { getSettlementReportParams } = require('../custom-transformations/settlement-report-params')
 
 class EventProcessorService {
   constructor (mongoDB, kafka) {
@@ -72,14 +73,31 @@ class EventProcessorService {
   }
 
   transformEvent (msg, eventType) {
+    const reportingParams = getReportingParams(msg, eventType)
     return {
       event: msg,
       metadata: {
         reporting: {
-          transactionId: msg.metadata.trace.tags.transactionId,
-          eventType: eventType
+          eventType: eventType,
+          ...reportingParams
         }
       }
+    }
+  }
+
+  getReportingParams (msg, eventType) {
+    switch(eventType) {
+      case eventType.QUOTE:
+      case eventType.TRANSFER:
+        {
+          return { transactionId: msg.metadata.trace.tags.transactionId }
+        }
+      case eventType.SETTLEMENT:
+        {
+          return getSettlementReportParams(msg)
+        }
+      default:
+        return null
     }
   }
 }
