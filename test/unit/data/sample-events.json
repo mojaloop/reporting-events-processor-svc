@@ -179,5 +179,167 @@
       },
       "protocol.createdAt": 1637261336540
     }
+  },
+  "csCloseSettlementWindowMsg": {
+    "id": "a504c485-6911-4212-aa48-c1dc67d7914a",
+    "content": {
+        "value": {
+            "from": "switch",
+            "to": "switch",
+            "id": "b24cfb52-5c5f-4cfc-b659-b870d3eea9cd",
+            "content": {
+                "headers": {
+                    "content-type": "application/json",
+                    "fspiop-source": "testingtoolkitdfsp",
+                    "traceparent": "00-aabb1e210d88203331ab8bfcc0604b36-0123456789abcdef0-00",
+                    "user-agent": "axios/0.21.4",
+                    "content-length": "36",
+                    "host": "moja-centralsettlement-service",
+                    "connection": "keep-alive"
+                },
+                "payload": {
+                    "settlementWindowId": 6,
+                    "reason": "string",
+                    "headers": {
+                        "content-type": "application/json",
+                        "fspiop-source": "testingtoolkitdfsp",
+                        "traceparent": "00-aabb1e210d88203331ab8bfcc0604b36-0123456789abcdef0-00",
+                        "user-agent": "axios/0.21.4",
+                        "content-length": "36",
+                        "host": "moja-centralsettlement-service",
+                        "connection": "keep-alive"
+                    }
+                }
+            },
+            "type": "application/json",
+            "metadata": {
+                "correlationId": "9be85125-5d16-4bac-8bf0-a1e627df4048",
+                "event": {
+                    "type": "deferredsettlement",
+                    "action": "close",
+                    "createdAt": "2021-11-18T18:48:55.476Z",
+                    "state": {
+                        "status": "success",
+                        "code": 0,
+                        "description": "action successful"
+                    }
+                },
+                "protocol.createdAt": 1637261335476
+            }
+        },
+        "size": 979,
+        "key": null,
+        "topic": "topic-deferredsettlement-close",
+        "offset": 5,
+        "partition": 0,
+        "timestamp": 1637261335476
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "28285c48-a348-41d0-bf5a-8d46d74d871f",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2021-11-18T18:48:55.482Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "cs_close_settlement_window",
+            "traceId": "0c5258fbaec6e2f5404bc833a64691df",
+            "spanId": "19129fda65e284d5",
+            "startTimestamp": "2021-11-18T18:48:55.481Z",
+            "tags": {
+                "tracestate": "mojaloop=eyJzcGFuSWQiOiIxOTEyOWZkYTY1ZTI4NGQ1In0=",
+                "transactionType": "settlementwindow",
+                "transactionAction": "close",
+                "transactionId": "6",
+                "source": "testingtoolkitdfsp",
+                "destination": "undefined"
+            }
+        },
+        "protocol.createdAt": 1637261335487
+    }
+  },
+  "closeSettlementWindowMsg": {
+    "id": "694cf2b7-a4d0-4ef7-b72e-4571560a9786",
+    "content": {
+        "state": "CLOSED",
+        "reason": "string"
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "a5fce125-1e54-433f-a0e6-d553d218958b",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2021-11-18T18:48:55.449Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "closeSettlementWindow",
+            "traceId": "aabb1e210d88203331ab8bfcc0604b36",
+            "spanId": "d69db02f8bae48a0",
+            "sampled": 0,
+            "flags": 0,
+            "startTimestamp": "2021-11-18T18:48:55.447Z",
+            "tags": {
+                "tracestate": "mojaloop=eyJzcGFuSWQiOiJkNjlkYjAyZjhiYWU0OGEwIn0=",
+                "transactionType": "settlementwindow",
+                "transactionAction": "post",
+                "transactionId": "settlementWindowId=6",
+                "source": "testingtoolkitdfsp",
+                "destination": "undefined"
+            }
+        },
+        "protocol.createdAt": 1637261335450
+    }
+  },
+  "updateSettlementByIdMsg": {
+    "id": "8c828a52-b4a8-4e1e-bbff-f74a7005a85f",
+    "content": {
+        "participants": [
+            {
+                "id": 13,
+                "accounts": [
+                    {
+                        "id": 29,
+                        "reason": "Transfers settled for payer",
+                        "state": "SETTLED"
+                    }
+                ]
+            }
+        ]
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "16ec5f7d-f9aa-4d94-8637-db30ef0cc376",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2021-11-18T18:49:00.623Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "updateSettlementById",
+            "traceId": "bdf3025934efcf1be903be2945d11226",
+            "spanId": "c5166986f64fe0dd",
+            "startTimestamp": "2021-11-18T18:49:00.622Z",
+            "tags": {
+                "tracestate": "mojaloop=eyJzcGFuSWQiOiJjNTE2Njk4NmY2NGZlMGRkIn0=",
+                "transactionType": "settlement",
+                "transactionAction": "put",
+                "transactionId": "sid=5",
+                "source": "testingtoolkitdfsp",
+                "destination": "undefined"
+            }
+        },
+        "protocol.createdAt": 1637261340624
+    }
   }
 }
