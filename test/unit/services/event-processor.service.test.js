@@ -1,5 +1,5 @@
-const { eventType } = require('../../src/constants/event-types.js')
-const { EventProcessorService } = require('../../src/services/event-processor.service.js')
+const { eventType } = require('../../../src/constants/event-types.js')
+const { EventProcessorService } = require('../../../src/services/event-processor.service.js')
 
 describe('Event Processor Service', () => {
   beforeAll(() => {

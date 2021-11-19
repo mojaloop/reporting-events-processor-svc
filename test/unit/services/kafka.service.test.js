@@ -1,5 +1,5 @@
 const { Kafka } = require('kafkajs')
-const { KafkaService } = require('../../src/services/kafka.service.js')
+const { KafkaService } = require('../../../src/services/kafka.service.js')
 
 jest.mock('kafkajs')
 

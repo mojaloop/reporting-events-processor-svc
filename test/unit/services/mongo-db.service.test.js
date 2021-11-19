@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb')
-const { createReportingSchema, applySchema } = require('../../src/utilities/mongodb-schema.js')
-const { MongoDBService } = require('../../src/services/mongo-db.service.js')
+const { createReportingSchema, applySchema } = require('../../../src/utilities/mongodb-schema.js')
+const { MongoDBService } = require('../../../src/services/mongo-db.service.js')
 
 jestMongoURL = process.env.MONGO_URL;
 
