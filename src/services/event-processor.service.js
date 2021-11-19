@@ -1,8 +1,24 @@
 const { quotesConstants } = require('../constants/quote-constants')
 const { transferConstants } = require('../constants/transfer-constants')
 const { settlementConstants } = require('../constants/settlement-constants')
-const { eventType } = require('../constants/event-types')
+const { eventTypes } = require('../constants/event-types')
 const { getSettlementReportParams } = require('../custom-transformations/settlement-report-params')
+
+const _getReportingParams = (msg, eventType) => {
+  switch(eventType) {
+  case eventTypes.QUOTE:
+  case eventTypes.TRANSFER:
+  {
+    return { transactionId: msg.metadata.trace.tags.transactionId }
+  }
+  case eventTypes.SETTLEMENT:
+  {
+    return getSettlementReportParams(msg)
+  }
+  default:
+    return null
+  }
+}
 
 class EventProcessorService {
   constructor (mongoDB, kafka) {
@@ -34,7 +50,7 @@ class EventProcessorService {
 
       const eventType = this.determineEventType(msg)
 
-      if (eventType === eventType.UNSUPPORTED) {
+      if (eventType === eventTypes.UNSUPPORTED) {
         return
       }
 
@@ -54,26 +70,26 @@ class EventProcessorService {
   }
 
   isAudit (msg) {
-    return msg?.metadata?.event?.type === eventType.AUDIT || false
+    return msg?.metadata?.event?.type === eventTypes.AUDIT || false
   }
 
   determineEventType (msg) {
     if (msg.metadata?.trace?.service) {
       for (const service of quotesConstants) {
-        if (msg.metadata.trace.service === service) { return eventType.QUOTE }
+        if (msg.metadata.trace.service === service) { return eventTypes.QUOTE }
       }
       for (const service of transferConstants) {
-        if (msg.metadata.trace.service === service) { return eventType.TRANSFER }
+        if (msg.metadata.trace.service === service) { return eventTypes.TRANSFER }
       }
       for (const service of settlementConstants) {
-        if (msg.metadata.trace.service === service) { return eventType.SETTLEMENT }
+        if (msg.metadata.trace.service === service) { return eventTypes.SETTLEMENT }
       }
     }
-    return eventType.UNSUPPORTED
+    return eventTypes.UNSUPPORTED
   }
 
   transformEvent (msg, eventType) {
-    const reportingParams = this.getReportingParams(msg, eventType)
+    const reportingParams = _getReportingParams(msg, eventType)
     return {
       event: msg,
       metadata: {
@@ -82,22 +98,6 @@ class EventProcessorService {
           ...reportingParams
         }
       }
-    }
-  }
-
-  getReportingParams (msg, eventType) {
-    switch(eventType) {
-    case eventType.QUOTE:
-    case eventType.TRANSFER:
-    {
-      return { transactionId: msg.metadata.trace.tags.transactionId }
-    }
-    case eventType.SETTLEMENT:
-    {
-      return getSettlementReportParams(msg)
-    }
-    default:
-      return null
     }
   }
 }

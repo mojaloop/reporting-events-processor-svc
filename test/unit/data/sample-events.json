@@ -1,0 +1,183 @@
+{
+  "forwardQuoteRequestMsg": {
+    "id": "c7f10874-804b-4afc-b4fb-8101c20330a2",
+    "content": {
+        "method": "POST",
+        "url": "http://moja-ml-testing-toolkit-backend:5000/quotes",
+        "data": "{\"quoteId\":\"fdc0d757-6c61-41c8-99fd-89eed6525e75\",\"transactionId\":\"a3397df9-2172-4120-8e94-c708512a0019\",\"payer\":{\"partyIdInfo\":{\"partyIdType\":\"MSISDN\",\"partyIdentifier\":\"44123456789\",\"fspId\":\"pinkbankfsp\",\"extensionList\":{\"extension\":[{\"key\":\"accountType\",\"value\":\"Wallet\"}]}},\"personalInfo\":{\"complexName\":{\"firstName\":\"Vijay\",\"lastName\":\"Kumar\"},\"dateOfBirth\":\"1984-01-01\"}},\"payee\":{\"partyIdInfo\":{\"partyIdType\":\"MSISDN\",\"partyIdentifier\":\"987654320\",\"fspId\":\"greenbankfsp\",\"extensionList\":{\"extension\":[{\"key\":\"accountType\",\"value\":\"Wallet\"}]}}},\"amountType\":\"RECEIVE\",\"amount\":{\"amount\":\"100000000\",\"currency\":\"USD\"},\"transactionType\":{\"scenario\":\"TRANSFER\",\"initiator\":\"PAYER\",\"initiatorType\":\"CONSUMER\"},\"note\":\"test\"}",
+        "headers": {
+            "Content-Type": "application/vnd.interoperability.quotes+json;version=1.0",
+            "Date": "Thu, 18 Nov 2021 19:44:15 GMT",
+            "FSPIOP-Source": "pinkbankfsp",
+            "FSPIOP-Destination": "greenbankfsp",
+            "Accept": "application/vnd.interoperability.quotes+json;version=1.0",
+            "traceparent": "00-aabb1e210d88203331ab8bfcc060eaa6-c2718c0ac682c3d3-30",
+            "tracestate": "mojaloop=eyJzcGFuSWQiOiJjMjcxOGMwYWM2ODJjM2QzIn0="
+        }
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "1f30e200-8a5f-4598-9eba-8ef9adb9c977",
+            "type": "audit",
+            "action": "egress",
+            "createdAt": "2021-11-18T19:44:15.551Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "qs_quote_forwardQuoteRequest",
+            "traceId": "aabb1e210d88203331ab8bfcc060eaa6",
+            "spanId": "c2718c0ac682c3d3",
+            "parentSpanId": "0766d69298ecceb0",
+            "sampled": 0,
+            "flags": 0,
+            "startTimestamp": "2021-11-18T19:44:15.547Z",
+            "tags": {
+                "tracestate": "mojaloop=eyJzcGFuSWQiOiJjMjcxOGMwYWM2ODJjM2QzIn0=",
+                "transactionType": "quote",
+                "transactionAction": "prepare",
+                "transactionId": "a3397df9-2172-4120-8e94-c708512a0019",
+                "quoteId": "fdc0d757-6c61-41c8-99fd-89eed6525e75",
+                "source": "pinkbankfsp",
+                "destination": "greenbankfsp",
+                "payeeFsp": "greenbankfsp",
+                "payerFsp": "pinkbankfsp"
+            }
+        },
+        "protocol.createdAt": 1637264655553
+    }
+  },
+  "mlTransferFulfilMsg": {
+    "id": "dbacf8cb-4bab-4c45-8d93-9d56dd8f5b4b",
+    "content": {
+        "headers": {
+            "content-type": "application/vnd.interoperability.transfers+json;version=1.0",
+            "date": "2021-11-18T18:48:53.000Z",
+            "x-forwarded-for": "ex nostrud anim commodo Ut",
+            "fspiop-source": "greenbankfsp",
+            "fspiop-destination": "pinkbankfsp",
+            "fspiop-encryption": "Lorem",
+            "fspiop-signature": "in ullamco",
+            "fspiop-uri": "cupidatat voluptate reprehenderit incididunt nulla",
+            "fspiop-http-method": "eiusmod adipisicing cupidatat ut fugiat",
+            "content-length": "136",
+            "traceparent": "00-aabb1e210d88203331ab8bfcc060935f-23b45670f17f361f-30",
+            "user-agent": "axios/0.21.4",
+            "host": "moja-ml-api-adapter-service",
+            "connection": "keep-alive"
+        },
+        "dataUri": "data:application/vnd.interoperability.transfers+json;version=1.0;base64,eyJ0cmFuc2ZlclN0YXRlIjoiQ09NTUlUVEVEIiwiY29tcGxldGVkVGltZXN0YW1wIjoiMjAyMS0xMS0xOFQxODo0ODo1NC4yNzdaIiwiZnVsZmlsbWVudCI6IjhjRmF3bUZLRDlCVzl0bTM0OGU0bVhWZEItbW80c1hOY04zb3Q5YUhGMUEifQ==",
+        "payload": {
+            "transferState": "COMMITTED",
+            "completedTimestamp": "2021-11-18T18:48:54.277Z",
+            "fulfilment": "8cFawmFKD9BW9tm348e4mXVdB-mo4sXNcN3ot9aHF1A"
+        },
+        "params": {
+            "id": "88d135f6-79d4-4280-a32b-326bc0bde032"
+        }
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "830e250a-95a9-4327-b75b-e74de488149f",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2021-11-18T18:48:54.285Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "ml_transfer_fulfil",
+            "traceId": "aabb1e210d88203331ab8bfcc060935f",
+            "spanId": "eb2c25ca36595614",
+            "sampled": 0,
+            "flags": 30,
+            "startTimestamp": "2021-11-18T18:48:54.284Z",
+            "tags": {
+                "tracestate": "mojaloop=eyJzcGFuSWQiOiJlYjJjMjVjYTM2NTk1NjE0IiwidGltZUFwaUZ1bGZpbCI6IjE2MzcyNjEzMzQyODUifQ==",
+                "transactionType": "transfer",
+                "transactionAction": "fulfil",
+                "transactionId": "88d135f6-79d4-4280-a32b-326bc0bde032",
+                "source": "greenbankfsp",
+                "destination": "pinkbankfsp"
+            }
+        },
+        "protocol.createdAt": 1637261334287
+    }
+  },
+  "msgWithNoService": {
+    "id": "2983d352-7bca-4ef3-9eb4-b8854a41f619",
+    "content": {},
+    "type": "application/json",
+    "metadata": {
+      "event": {
+        "id": "7e70d15e-f933-4139-a0d5-8b111f703849",
+        "type": "audit",
+        "action": "start",
+        "createdAt": "2021-11-18T18:48:56.537Z",
+        "state": {
+          "status": "success"
+        }
+      },
+      "trace": {
+        "traceId": "aabb1e210d88203331ab8bfcc0604b36",
+        "spanId": "a9734144fca86bea",
+        "sampled": 0,
+        "flags": 0,
+        "startTimestamp": "2021-11-18T18:48:56.535Z",
+        "tags": {
+          "tracestate": "mojaloop=eyJzcGFuSWQiOiJhOTczNDE0NGZjYTg2YmVhIn0=",
+          "transactionType": "settlement",
+          "transactionAction": "post",
+          "transactionId": "6",
+          "source": "testingtoolkitdfsp",
+          "destination": "undefined"
+        }
+      }
+    }
+  },
+  "createSettlementMsg": {
+    "id": "2983d352-7bca-4ef3-9eb4-b8854a41f619",
+    "content": {
+      "settlementModel": "DEFERREDNET",
+      "reason": "TESTING",
+      "settlementWindows": [
+        {
+          "id": 6
+        }
+      ]
+    },
+    "type": "application/json",
+    "metadata": {
+      "event": {
+        "id": "7e70d15e-f933-4139-a0d5-8b111f703849",
+        "type": "audit",
+        "action": "start",
+        "createdAt": "2021-11-18T18:48:56.537Z",
+        "state": {
+          "status": "success"
+        }
+      },
+      "trace": {
+        "service": "createSettlement",
+        "traceId": "aabb1e210d88203331ab8bfcc0604b36",
+        "spanId": "a9734144fca86bea",
+        "sampled": 0,
+        "flags": 0,
+        "startTimestamp": "2021-11-18T18:48:56.535Z",
+        "tags": {
+          "tracestate": "mojaloop=eyJzcGFuSWQiOiJhOTczNDE0NGZjYTg2YmVhIn0=",
+          "transactionType": "settlement",
+          "transactionAction": "post",
+          "transactionId": "6",
+          "source": "testingtoolkitdfsp",
+          "destination": "undefined"
+        }
+      },
+      "protocol.createdAt": 1637261336540
+    }
+  }
+}
