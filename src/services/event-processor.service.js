@@ -73,7 +73,7 @@ class EventProcessorService {
   }
 
   transformEvent (msg, eventType) {
-    const reportingParams = getReportingParams(msg, eventType)
+    const reportingParams = this.getReportingParams(msg, eventType)
     return {
       event: msg,
       metadata: {
@@ -87,17 +87,17 @@ class EventProcessorService {
 
   getReportingParams (msg, eventType) {
     switch(eventType) {
-      case eventType.QUOTE:
-      case eventType.TRANSFER:
-        {
-          return { transactionId: msg.metadata.trace.tags.transactionId }
-        }
-      case eventType.SETTLEMENT:
-        {
-          return getSettlementReportParams(msg)
-        }
-      default:
-        return null
+    case eventType.QUOTE:
+    case eventType.TRANSFER:
+    {
+      return { transactionId: msg.metadata.trace.tags.transactionId }
+    }
+    case eventType.SETTLEMENT:
+    {
+      return getSettlementReportParams(msg)
+    }
+    default:
+      return null
     }
   }
 }

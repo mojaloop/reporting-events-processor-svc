@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "src/index.js",
   "pre-commit": [
-    "npm run lint"
+    "lint"
   ],
   "dependencies": {
     "dotenv": "^10.0.0",
