@@ -51,7 +51,7 @@ executors:
   default-docker:
     working_directory: /home/circleci/project
     docker:
-      - image: node:fermium-alpine
+      - image: node:14
 
   default-machine:
     machine:
