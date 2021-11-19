@@ -97,12 +97,21 @@ const schema = {
       properties: {
         reporting: {
           bsonType: 'object',
-          required: ['transactionId', 'eventType'], /* "quoteId" */
+          required: ['eventType'], /* "quoteId" */
           properties: {
             transactionId: {
               bsonType: 'string'
             },
             quoteId: {
+              bsonType: 'string'
+            },
+            transferId: {
+              bsonType: 'string'
+            },
+            settlementId: {
+              bsonType: 'string'
+            },
+            settlementWindowId: {
               bsonType: 'string'
             },
             eventType: {

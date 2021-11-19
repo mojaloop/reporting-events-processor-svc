@@ -1,11 +1,11 @@
 const settlementConstants = [
-  'cs_process_transfer_settlement_window',
+  // 'cs_process_transfer_settlement_window',
   'cs_close_settlement_window',
 
-  'getSettlementWindowsByParams',
-  'getSettlementWindowById',
+  // 'getSettlementWindowsByParams',
+  // 'getSettlementWindowById',
   'updateSettlementById',
-  'getSettlementById',
+  // 'getSettlementById',
   'createSettlement',
   'closeSettlementWindow'
 ]

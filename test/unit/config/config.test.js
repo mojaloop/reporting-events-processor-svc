@@ -1,4 +1,4 @@
-const config = require('../../src/config/config.js')
+const config = require('../../../src/config/config.js')
 
 jest.mock('dotenv', () => ({
     config: () => { }

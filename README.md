@@ -1,5 +1,8 @@
-# (WIP) Event Processor
+# Event Processor
 Kafka consumer service for persistence storage of audit event logs.  
+
+## Documentation
+You can find detailed documentation about the concept at this page [Mojaloop Hub Operations Framework Documentation](https://docs.mojaloop.io/business-operations-framework-docs/guide/ReportingBC.html#building-the-event-data-store)
 
 ## Run Locally
 

@@ -1,4 +1,4 @@
-const eventType = {
+const eventTypes = {
   AUDIT: 'audit',
   UNSUPPORTED: 'Unsupported',
   QUOTE: 'Quote',
@@ -6,4 +6,4 @@ const eventType = {
   SETTLEMENT: 'Settlement'
 }
 
-module.exports = { eventType }
+module.exports = { eventTypes }

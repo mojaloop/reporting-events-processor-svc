@@ -51,7 +51,7 @@ executors:
   default-docker:
     working_directory: /home/circleci/project
     docker:
-      - image: node:17
+      - image: node:14
 
   default-machine:
     machine:
@@ -99,12 +99,31 @@ jobs:
           command: mkdir -p ./test/results
       - run:
           name: Execute unit tests
-          command: npm test > ./test/results/results.txt
+          command: npm run test:unit > ./test/results/results.txt
       - store_artifacts:
           path: ./test/results
           prefix: test
       - store_test_results:
           path: ./test/results
+
+  test-coverage:
+    executor: default-docker
+    steps:
+      - run:
+          name: Install general dependencies
+          command: *defaults_Dependencies
+      - checkout
+      - restore_cache:
+          keys:
+            - dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Execute code coverage check
+          command: npm run test:coverage-check
+      - store_artifacts:
+          path: coverage
+          prefix: test
+      - store_test_results:
+          path: coverage
 
   linting-check:
     executor: default-docker
@@ -134,7 +153,7 @@ jobs:
           command: mkdir -p ./audit/results
       - run:
           name: Check for new npm vulnerabilities
-          command: npm audit --silent --json > ./audit/results/auditResults.json
+          command: npm run audit:check --silent -- --json > ./audit/results/auditResults.json
       - store_artifacts:
           path: ./audit/results
           prefix: audit
@@ -294,6 +313,9 @@ workflows:
           filters:
             tags:
               only: /.*/
+            branches:
+              ignore:
+                - /.*/
 
       - setup:
           context: org-global
@@ -302,6 +324,14 @@ workflows:
               only: /.*/
 
       - test-unit:
+          context: org-global
+          requires:
+            - setup
+          filters:
+            tags:
+              only: /.*/
+
+      - test-coverage:
           context: org-global
           requires:
             - setup
