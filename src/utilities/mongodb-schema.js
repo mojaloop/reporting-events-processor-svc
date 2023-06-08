@@ -1,15 +1,15 @@
 const { schema } = require('../constants/json-schema')
 
-const createReportingSchema = async (client, dbName, colName) => {
-  await client.db(dbName).createCollection(colName, {
+const createReportingSchema = async (client, colName) => {
+  await client.db().createCollection(colName, {
     validator: {
       $jsonSchema: schema
     }
   })
 }
 
-const applySchema = async (client, dbName, colName) => {
-  await client.db(dbName).command({
+const applySchema = async (client, colName) => {
+  await client.db().command({
     collMod: colName,
     validator: {
       $jsonSchema: schema

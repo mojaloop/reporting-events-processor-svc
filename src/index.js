@@ -1,24 +1,26 @@
-const { initConfig } = require('./config/config.js')
+const Config = require('./lib/config')
 const { KafkaService } = require('./services/kafka.service.js')
 const { MongoDBService } = require('./services/mongo-db.service.js')
 const { EventProcessorService } = require('./services/event-processor.service.js')
+const { ConnectionString } = require('connection-string')
 
 async function main () {
   console.log('Service Starting')
 
-  try {
-    console.log('Loading Service Config')
-    initConfig()
-  } catch (error) {
-    console.error('Service failed to load config:\n', error)
-    console.info(
-      'Service might not behave as expected due to config not loading correctly, using defaulted values'
-    )
-  }
-
   // Initialize Services
   console.log('Initializing Services')
-  const mongoDBService = new MongoDBService(process.env.MONGO_DB_URI)
+
+  // Construct mongodb connection URL
+  const csMongoDBObj = new ConnectionString()
+  csMongoDBObj.setDefaults({
+    protocol: 'mongodb',
+    hosts: [{ name: Config.EVENT_STORE_DB.HOST, port: Config.EVENT_STORE_DB.PORT}],
+    user: Config.EVENT_STORE_DB.USER,
+    password: Config.EVENT_STORE_DB.PASSWORD,
+    path: [Config.EVENT_STORE_DB.DATABASE]
+  })
+
+  const mongoDBService = new MongoDBService(csMongoDBObj.toString())
   const mongoDBOnline = await mongoDBService.initialize()
 
   if (!mongoDBOnline) {

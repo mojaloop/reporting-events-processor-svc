@@ -31,7 +31,7 @@ describe('Kafka Service', () => {
     expect(kafkaService.kafkaClient).toBeTruthy();
     expect(kafkaService.kafkaClient.testArgs).toEqual({
       brokers: ['localhost:9092'],
-      clientID: 'example-producer'
+      clientID: 'reporting_events_processor_consumer'
     });
   })
 

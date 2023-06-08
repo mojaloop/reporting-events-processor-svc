@@ -1,4 +1,5 @@
 const { Kafka } = require('kafkajs')
+const Config = require('../lib/config')
 
 class KafkaService {
   constructor () {
@@ -9,11 +10,10 @@ class KafkaService {
   initialize () {
     let result = false
     let error
-    const brokerURI = process.env.KAFKA_URI || 'localhost:9092'
-    const clientID = process.env.KAFKA_CLIENT_ID || 'example-producer'
+    const clientID = Config.KAFKA.CLIENT_ID
     try {
       this.kafkaClient = new Kafka({
-        brokers: [`${brokerURI}`],
+        brokers: Config.KAFKA.BROKER_LIST,
         clientID
       })
       result = true
@@ -32,8 +32,8 @@ class KafkaService {
   }
 
   async startConsumer (messageHandleFunction) {
-    const consumerGroup = process.env.KAFKA_CONSUMER_GROUP || 'test-group'
-    const listeningTopic = process.env.KAFKA_TOPIC_TO_CONSUME || 'topic-event'
+    const consumerGroup = Config.KAFKA.CONSUMER_GROUP
+    const listeningTopic = Config.KAFKA.TOPIC_EVENT
 
     const consumer = this.kafkaClient.consumer({ groupId: consumerGroup })
 
