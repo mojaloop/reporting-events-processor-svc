@@ -5,7 +5,7 @@
     "USER": "",
     "PASSWORD": "",
     "DATABASE": "reporting",
-    "EVENTS_COLLECTION": "reportEvents"
+    "EVENTS_COLLECTION": "reporting"
   },
   "KAFKA": {
     "BROKER_LIST": ["localhost:9092"],

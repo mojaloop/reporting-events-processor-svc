@@ -43,7 +43,7 @@ const ConvictConfig = Convict({
     EVENTS_COLLECTION: {
       doc: 'The collection name to store events',
       format: '*',
-      default: 'reportEvents',
+      default: 'reporting',
       env: 'EVENT_STORE_DB_EVENTS_COLLECTION',
     },
   },
