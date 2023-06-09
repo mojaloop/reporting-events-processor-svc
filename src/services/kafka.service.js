@@ -39,10 +39,23 @@ class KafkaService {
 
     await consumer.connect()
 
-    await consumer.subscribe({
-      topic: listeningTopic,
-      fromBeginning: false
-    })
+    // Retry if the incase of the error UNKNOWN_TOPIC_OR_PARTITION
+    function wait(n) { return new Promise(resolve => setTimeout(resolve, n)) }
+    function consumeTopicWithRetry(topic) {   
+      return consumer.subscribe({
+        topic: topic,
+        fromBeginning: false
+      }).catch((e) => {
+        if(e.type === 'UNKNOWN_TOPIC_OR_PARTITION') {
+          console.warn('UNKNOWN_TOPIC_OR_PARTITION: Retrying...')
+          return wait(1000).then(() => consumeTopicWithRetry(topic))
+        } else {
+          return Promise.reject()
+        }
+      })
+    }
+
+    await consumeTopicWithRetry(listeningTopic)
 
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) =>
