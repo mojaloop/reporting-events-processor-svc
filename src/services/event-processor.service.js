@@ -33,7 +33,7 @@ class EventProcessorService {
   }
 
   async messageHandler (args) {
-    const listeningTopic = Config.KAFKA.TOPIC_TO_CONSUME
+    const listeningTopic = Config.KAFKA.TOPIC_EVENT
 
     if (args.topic === listeningTopic) {
       let msg
@@ -48,6 +48,8 @@ class EventProcessorService {
       if (!this.isAudit(msg)) {
         return
       }
+
+      console.log(`Processing eventId: ${msg.id}`)
 
       const eventType = this.determineEventType(msg)
 
