@@ -50,7 +50,7 @@ class KafkaService {
           console.warn('UNKNOWN_TOPIC_OR_PARTITION: Retrying...')
           return wait(1000).then(() => consumeTopicWithRetry(topic))
         } else {
-          return Promise.reject()
+          return Promise.reject(e)
         }
       })
     }
