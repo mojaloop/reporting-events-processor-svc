@@ -77,7 +77,7 @@ const ConvictConfig = Convict({
 
 // Load environment dependent configuration
 const env = ConvictConfig.get('env')
-const configFile = process.env.CONFIG_FILE || path.join(__dirname, `../../config/${env}.json`)
+const configFile = process.env.CONFIG_FILE || path.join(process.cwd(), `./config/${env}.json`)
 ConvictConfig.loadFile(configFile)
 
 // Perform configuration validation
