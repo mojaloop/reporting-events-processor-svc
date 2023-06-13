@@ -58,9 +58,9 @@ describe('Kafka Service', () => {
     const kafkaService = new KafkaService()
     kafkaService.initialize()
 
-    const mockConnect = jest.fn().mockImplementation(() => { Promise.resolve("connected") })
-    const mockSubscribe = jest.fn().mockImplementation((props) => { Promise.resolve("subscribed") })
-    const mockRun = jest.fn().mockImplementation((props) => { Promise.resolve("run") })
+    const mockConnect = jest.fn().mockImplementation(() => Promise.resolve("connected"))
+    const mockSubscribe = jest.fn().mockImplementation((props) => Promise.resolve("subscribed"))
+    const mockRun = jest.fn().mockImplementation((props) => Promise.resolve("run"))
 
     const consumerSpy = jest
       .spyOn(kafkaService.kafkaClient, 'consumer')
