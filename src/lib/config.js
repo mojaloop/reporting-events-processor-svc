@@ -3,12 +3,6 @@ const path = require('path')
 
 // Declare configuration schema, default values and bindings to environment variables
 const ConvictConfig = Convict({
-  env: {
-    doc: 'The application environment.',
-    format: ['default', 'production', 'development', 'test', 'integration', 'e2e'],
-    default: 'default',
-    env: 'NODE_ENV',
-  },
   EVENT_STORE_DB: {
     HOST: {
       doc: 'The Hostname/IP address of database',
@@ -75,9 +69,7 @@ const ConvictConfig = Convict({
   },
 })
 
-// Load environment dependent configuration
-const env = ConvictConfig.get('env')
-const configFile = process.env.CONFIG_FILE || path.join(process.cwd(), `./config/${env}.json`)
+const configFile = process.env.CONFIG_FILE || path.join(process.cwd(), './config/default.json')
 ConvictConfig.loadFile(configFile)
 
 // Perform configuration validation
@@ -85,7 +77,6 @@ ConvictConfig.validate({ allowed: 'strict' })
 
 // extract simplified config from Convict object
 const config = {
-  env: ConvictConfig.get('env'),
   EVENT_STORE_DB: ConvictConfig.get('EVENT_STORE_DB'),
   KAFKA: ConvictConfig.get('KAFKA'),
 }
