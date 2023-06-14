@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb')
+const Config = require('../lib/config')
 const { createReportingSchema, applySchema } = require('../utilities/mongodb-schema')
 
 class MongoDBService {
@@ -13,18 +14,18 @@ class MongoDBService {
     try {
       await mongo.connect()
 
-      const res = await mongo.db(process.env.MONGO_DB_DBNAME).command({ ping: 1 })
+      const res = await mongo.db().command({ ping: 1 })
 
       if (res.ok === 1) {
         console.log('Connected to Mongo DB')
         result = true
 
-        const collections = await mongo.db(process.env.MONGO_DB_DBNAME).listCollections().toArray()
-        if (!collections.find(col => col.name === process.env.MONGO_DB_COLNAME)) {
-          await createReportingSchema(mongo, process.env.MONGO_DB_DBNAME, process.env.MONGO_DB_COLNAME)
+        const collections = await mongo.db().listCollections().toArray()
+        if (!collections.find(col => col.name === Config.EVENT_STORE_DB.EVENTS_COLLECTION)) {
+          await createReportingSchema(mongo, Config.EVENT_STORE_DB.EVENTS_COLLECTION)
           console.log('Set up Mongo DB Datasets & Schema')
         } else {
-          await applySchema(mongo, process.env.MONGO_DB_DBNAME, process.env.MONGO_DB_COLNAME)
+          await applySchema(mongo, Config.EVENT_STORE_DB.EVENTS_COLLECTION)
           console.log('Applying Mongo DB Reporting Schema')
         }
       }
@@ -49,7 +50,7 @@ class MongoDBService {
     try {
       await saveClient.connect()
 
-      const collection = await saveClient.db(process.env.MONGO_DB_DBNAME).collection(process.env.MONGO_DB_COLNAME)
+      const collection = await saveClient.db().collection(Config.EVENT_STORE_DB.EVENTS_COLLECTION)
 
       await collection.insertOne(record)
       result = true

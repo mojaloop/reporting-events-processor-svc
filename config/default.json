@@ -1,0 +1,16 @@
+{
+  "EVENT_STORE_DB": {
+    "HOST": "localhost",
+    "PORT": 27017,
+    "USER": "",
+    "PASSWORD": "",
+    "DATABASE": "reporting",
+    "EVENTS_COLLECTION": "reporting"
+  },
+  "KAFKA": {
+    "BROKER_LIST": ["localhost:9092"],
+    "CONSUMER_GROUP": "reporting_events_processor_consumer_group",
+    "CLIENT_ID": "reporting_events_processor_consumer",
+    "TOPIC_EVENT": "topic-event"
+  }
+}

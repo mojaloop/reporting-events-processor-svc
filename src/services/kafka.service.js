@@ -1,4 +1,5 @@
 const { Kafka } = require('kafkajs')
+const Config = require('../lib/config')
 
 class KafkaService {
   constructor () {
@@ -9,11 +10,10 @@ class KafkaService {
   initialize () {
     let result = false
     let error
-    const brokerURI = process.env.KAFKA_URI || 'localhost:9092'
-    const clientID = process.env.KAFKA_CLIENT_ID || 'example-producer'
+    const clientID = Config.KAFKA.CLIENT_ID
     try {
       this.kafkaClient = new Kafka({
-        brokers: [`${brokerURI}`],
+        brokers: Config.KAFKA.BROKER_LIST,
         clientID
       })
       result = true
@@ -32,17 +32,30 @@ class KafkaService {
   }
 
   async startConsumer (messageHandleFunction) {
-    const consumerGroup = process.env.KAFKA_CONSUMER_GROUP || 'test-group'
-    const listeningTopic = process.env.KAFKA_TOPIC_TO_CONSUME || 'topic-event'
+    const consumerGroup = Config.KAFKA.CONSUMER_GROUP
+    const listeningTopic = Config.KAFKA.TOPIC_EVENT
 
     const consumer = this.kafkaClient.consumer({ groupId: consumerGroup })
 
     await consumer.connect()
 
-    await consumer.subscribe({
-      topic: listeningTopic,
-      fromBeginning: false
-    })
+    // Retry if the incase of the error UNKNOWN_TOPIC_OR_PARTITION
+    function wait(n) { return new Promise(resolve => setTimeout(resolve, n)) }
+    function consumeTopicWithRetry(topic) {   
+      return consumer.subscribe({
+        topic: topic,
+        fromBeginning: false
+      }).catch((e) => {
+        if(e.type === 'UNKNOWN_TOPIC_OR_PARTITION') {
+          console.warn('UNKNOWN_TOPIC_OR_PARTITION: Retrying...')
+          return wait(1000).then(() => consumeTopicWithRetry(topic))
+        } else {
+          return Promise.reject(e)
+        }
+      })
+    }
+
+    await consumeTopicWithRetry(listeningTopic)
 
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) =>

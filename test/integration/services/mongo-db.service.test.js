@@ -1,8 +1,17 @@
 const { MongoClient } = require('mongodb')
 const { createReportingSchema, applySchema } = require('../../../src/utilities/mongodb-schema.js')
 const { MongoDBService } = require('../../../src/services/mongo-db.service.js')
+// const Config = require('../../../src/lib/config')
 
-jestMongoURL = process.env.MONGO_URL;
+const csMongoDBObj = new ConnectionString()
+csMongoDBObj.setDefaults({
+  protocol: 'mongodb',
+  hosts: [{ name: Config.EVENT_STORE_DB.HOST, port: Config.EVENT_STORE_DB.PORT}],
+  user: Config.EVENT_STORE_DB.USER,
+  password: Config.EVENT_STORE_DB.PASSWORD,
+  path: [Config.EVENT_STORE_DB.DATABASE]
+})
+jestMongoURL = csMongoDBObj.toString()
 
 describe('MongoDB Functionality', () => {
 

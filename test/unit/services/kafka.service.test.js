@@ -2,6 +2,7 @@ const { Kafka } = require('kafkajs')
 const { KafkaService } = require('../../../src/services/kafka.service.js')
 
 jest.mock('kafkajs')
+jest.useFakeTimers()
 
 describe('Kafka Service', () => {
   beforeEach(() => {
@@ -31,7 +32,7 @@ describe('Kafka Service', () => {
     expect(kafkaService.kafkaClient).toBeTruthy();
     expect(kafkaService.kafkaClient.testArgs).toEqual({
       brokers: ['localhost:9092'],
-      clientID: 'example-producer'
+      clientID: 'reporting_events_processor_consumer'
     });
   })
 
@@ -58,9 +59,9 @@ describe('Kafka Service', () => {
     const kafkaService = new KafkaService()
     kafkaService.initialize()
 
-    const mockConnect = jest.fn().mockImplementation(() => { Promise.resolve("connected") })
-    const mockSubscribe = jest.fn().mockImplementation((props) => { Promise.resolve("subscribed") })
-    const mockRun = jest.fn().mockImplementation((props) => { Promise.resolve("run") })
+    const mockConnect = jest.fn().mockImplementation(() => Promise.resolve("connected"))
+    const mockSubscribe = jest.fn().mockImplementation((props) => Promise.resolve("subscribed"))
+    const mockRun = jest.fn().mockImplementation((props) => Promise.resolve("run"))
 
     const consumerSpy = jest
       .spyOn(kafkaService.kafkaClient, 'consumer')
@@ -74,5 +75,53 @@ describe('Kafka Service', () => {
 
     kafkaService.startConsumer()
     expect(consumerSpy).toHaveBeenCalledTimes(1);
+  })
+
+  it('startConsumer with an exception', async () => {
+    const kafkaService = new KafkaService()
+    kafkaService.initialize()
+
+    const sampleError1 = new Error('sampleError1')
+    sampleError1.type = 'SOME_UNKNOWN_EXCEPTION'
+    const mockConnect = jest.fn().mockImplementation(() => Promise.resolve("connected"))
+    const mockSubscribe = jest.fn().mockImplementation((props) => Promise.reject(sampleError1))
+    const mockRun = jest.fn().mockImplementation((props) => Promise.resolve("run"))
+
+    const consumerSpy = jest
+      .spyOn(kafkaService.kafkaClient, 'consumer')
+      .mockImplementation((props) => {
+        return {
+          connect: mockConnect,
+          subscribe: mockSubscribe,
+          run: mockRun
+        }
+      })
+      
+    await expect(kafkaService.startConsumer()).rejects.toThrowError()
+  })
+
+  it('startConsumer with UNKNOWN_TOPIC_OR_PARTITION error', async () => {
+    const kafkaService = new KafkaService()
+    kafkaService.initialize()
+
+    const sampleError1 = new Error('sampleError1')
+    sampleError1.type = 'UNKNOWN_TOPIC_OR_PARTITION'
+    const mockConnect = jest.fn().mockImplementation(() => Promise.resolve("connected"))
+    const mockSubscribe = jest.fn().mockImplementation((props) => Promise.reject(sampleError1))
+    const mockRun = jest.fn().mockImplementation((props) => Promise.resolve("run"))
+
+    const consumerSpy = jest
+      .spyOn(kafkaService.kafkaClient, 'consumer')
+      .mockImplementation((props) => {
+        return {
+          connect: mockConnect,
+          subscribe: mockSubscribe,
+          run: mockRun
+        }
+      })
+      
+    kafkaService.startConsumer()
+    expect(mockSubscribe).toHaveBeenCalledTimes(0);
+    jest.clearAllTimers()
   })
 })

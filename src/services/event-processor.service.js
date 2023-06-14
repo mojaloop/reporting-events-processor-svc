@@ -3,6 +3,7 @@ const { transferConstants } = require('../constants/transfer-constants')
 const { settlementConstants } = require('../constants/settlement-constants')
 const { eventTypes } = require('../constants/event-types')
 const { getSettlementReportParams } = require('../custom-transformations/settlement-report-params')
+const Config = require('../lib/config')
 
 const _getReportingParams = (msg, eventType) => {
   switch(eventType) {
@@ -32,7 +33,7 @@ class EventProcessorService {
   }
 
   async messageHandler (args) {
-    const listeningTopic = process.env.KAFKA_TOPIC_TO_CONSUME || 'topic-event'
+    const listeningTopic = Config.KAFKA.TOPIC_EVENT
 
     if (args.topic === listeningTopic) {
       let msg
@@ -47,6 +48,8 @@ class EventProcessorService {
       if (!this.isAudit(msg)) {
         return
       }
+
+      console.log(`Processing eventId: ${msg.id}`)
 
       const eventType = this.determineEventType(msg)
 
