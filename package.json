@@ -21,7 +21,7 @@
     "mongodb": "^4.17.2"
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^2.2.2",
+    "@shelf/jest-mongodb": "^4.3.2",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "npm-audit-resolver": "3.0.0-RC.0",
