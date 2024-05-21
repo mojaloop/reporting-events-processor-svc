@@ -89,7 +89,7 @@ describe('Event Processor Service', () => {
       message: { value: JSON.stringify(newBuff) }
     }
 
-    eventProcessor.messageHandler(messageArgs);
+    eventProcessor.messageHandler(undefined, messageArgs);
     expect(eventProcessor).toBeDefined();
   })
 
@@ -102,7 +102,7 @@ describe('Event Processor Service', () => {
       message: { value: JSON.stringify(newBuff) }
     }
 
-    eventProcessor.messageHandler(messageArgs);
+    eventProcessor.messageHandler(undefined, messageArgs);
     expect(eventProcessor).toBeDefined();
   })
 
@@ -116,15 +116,19 @@ describe('Event Processor Service', () => {
       message: { value: newBuff }
     }
 
-    eventProcessor.messageHandler(messageArgs);
+    eventProcessor.messageHandler(undefined, messageArgs);
     expect(eventProcessor).toBeDefined();
+  })
+
+  it('Message handler: Error', () => {
+    expect(() => eventProcessor.messageHandler(new Error('test error'))).rejects.toThrow();
   })
 
   it('initialize', () => {
 
     spyStartConsumer = jest
       .spyOn(kafkaService, 'startConsumer')
-      .mockImplementation((props) => { eventProcessor.messageHandler(props) });
+      .mockImplementation((props) => { eventProcessor.messageHandler(undefined, props) });
 
     const result = eventProcessor.initialize();
 

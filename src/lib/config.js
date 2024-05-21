@@ -42,29 +42,19 @@ const ConvictConfig = Convict({
     },
   },
   KAFKA: {
-    BROKER_LIST: {
-      doc: 'BROKER_LIST',
-      format: Array,
-      default: ['localhost:9092'],
-      env: 'KAFKA_BROKER_LIST',
-    },
-    CONSUMER_GROUP: {
-      doc: 'CONSUMER_GROUP',
-      format: String,
-      default: 'reporting_events_processor_consumer_group',
-      env: 'KAFKA_CONSUMER_GROUP',
-    },
-    CLIENT_ID: {
-      doc: 'CLIENT_ID',
-      format: String,
-      default: 'reporting_events_processor_consumer',
-      env: 'KAFKA_CLIENT_ID',
-    },
     TOPIC_EVENT: {
       doc: 'TOPIC_EVENT',
       format: String,
       default: 'topic-event',
       env: 'KAFKA_TOPIC_EVENT',
+    },
+    CONSUMER: {
+      EVENT: {
+        config: {
+          rdkafkaConf: {
+          },
+        },
+      },
     },
   },
 })

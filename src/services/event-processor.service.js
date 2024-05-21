@@ -32,14 +32,15 @@ class EventProcessorService {
     return true
   }
 
-  async messageHandler (args) {
+  async messageHandler (error, args) {
+    if (error) throw error
     const listeningTopic = Config.KAFKA.TOPIC_EVENT
 
     if (args.topic === listeningTopic) {
       let msg
 
       try {
-        msg = JSON.parse(args.message.value.toString())
+        msg = JSON.parse(args.value.toString())
       } catch (error) {
         console.error('Failed to parse event message.', error, msg)
         return
