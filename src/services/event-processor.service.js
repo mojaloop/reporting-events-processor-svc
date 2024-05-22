@@ -28,7 +28,7 @@ class EventProcessorService {
   }
 
   initialize () {
-    this.kafkaService.startConsumer((args) => { this.messageHandler(args) })
+    this.kafkaService.startConsumer((...args) => { this.messageHandler(...args) })
     return true
   }
 
