@@ -40,7 +40,7 @@ class EventProcessorService {
       let msg
 
       try {
-        msg = JSON.parse(args.value.toString())
+        msg = Buffer.isBuffer(args.value) ? JSON.parse(args.value.toString()) : args.value
       } catch (error) {
         console.error('Failed to parse event message.', error, msg)
         return
@@ -50,8 +50,6 @@ class EventProcessorService {
         return
       }
 
-      console.log(`Processing eventId: ${msg.id}`)
-
       const eventType = this.determineEventType(msg)
 
       if (eventType === eventTypes.UNSUPPORTED) {
@@ -59,8 +57,6 @@ class EventProcessorService {
       }
 
       const record = this.transformEvent(msg, eventType)
-
-      console.dir(record)
 
       try {
         await this.mongoDBService.saveToDB(record)
