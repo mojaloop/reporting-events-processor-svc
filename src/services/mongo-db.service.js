@@ -24,7 +24,7 @@ class MongoDBService {
         if (!collections.find(col => col.name === Config.EVENT_STORE_DB.EVENTS_COLLECTION)) {
           await createReportingSchema(mongo, Config.EVENT_STORE_DB.EVENTS_COLLECTION)
           console.log('Set up Mongo DB Datasets & Schema')
-        } else {
+        } else if (Config.EVENT_STORE_DB.APPLY_SCHEMA) {
           await applySchema(mongo, Config.EVENT_STORE_DB.EVENTS_COLLECTION)
           console.log('Applying Mongo DB Reporting Schema')
         }

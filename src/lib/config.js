@@ -40,6 +40,12 @@ const ConvictConfig = Convict({
       default: 'reporting',
       env: 'EVENT_STORE_DB_EVENTS_COLLECTION',
     },
+    APPLY_SCHEMA: {
+      doc: 'Apply schema to existing collection',
+      format: Boolean,
+      default: false,
+      env: 'EVENT_STORE_APPLY_SCHEMA',
+    },
   },
   KAFKA: {
     TOPIC_EVENT: {
