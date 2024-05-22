@@ -51,8 +51,9 @@ const ConvictConfig = Convict({
     CONSUMER: {
       EVENT: {
         config: {
-          rdkafkaConf: {
-          },
+          options: {},
+          rdkafkaConf: {},
+          topicConf: {},
         },
       },
     },
