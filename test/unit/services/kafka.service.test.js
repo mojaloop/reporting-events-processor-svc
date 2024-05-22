@@ -67,6 +67,8 @@ describe('Kafka Service', () => {
     expect(createHandler).toHaveBeenCalledWith(
       'topic-event-audit',
       {
+        options: {},
+        topicConf: {},
         rdkafkaConf: {
           metadataBrokerList: 'localhost:9092',
           clientId: 'reporting_events_processor_consumer',
