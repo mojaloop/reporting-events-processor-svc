@@ -6,6 +6,7 @@ class MongoDBService {
   constructor (mongoDbURI) {
     this.initialized = false
     this.mongoDBConnectionString = mongoDbURI || 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000'
+    this.saveClient = false
   }
 
   async initialize () {
@@ -44,26 +45,35 @@ class MongoDBService {
     return (this.initialized = result)
   }
 
-  async saveToDB (record) {
-    const saveClient = new MongoClient(this.mongoDBConnectionString)
+  async saveToDB (records) {
+    if (!this.saveClient) {
+      this.saveClient = new MongoClient(this.mongoDBConnectionString)
+      await this.saveClient.connect()
+    }
     let result = false
     try {
-      await saveClient.connect()
+      const collection = await this.saveClient.db().collection(Config.EVENT_STORE_DB.EVENTS_COLLECTION)
 
-      const collection = await saveClient.db().collection(Config.EVENT_STORE_DB.EVENTS_COLLECTION)
-
-      await collection.insertOne(record)
+      collection.insertMany(records)
       result = true
     } catch (error) {
-      const newErr = new Error(`Error while attempting to save to Mongodb: ${error.message}\nRecord:\n${JSON.stringify(record)}\n`)
+      const newErr = new Error(`Error while attempting to save to Mongodb: ${error.message}\nRecord:\n${JSON.stringify(records)}\n`)
 
       newErr.origin = error
 
       throw newErr
-    } finally {
-      await saveClient.close()
     }
     return result
+  }
+
+  async close() {
+    if (this.saveClient) {
+      try {
+        await this.saveClient.close()
+      } finally {
+        this.saveClient = false
+      }
+    }
   }
 }
 

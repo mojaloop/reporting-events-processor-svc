@@ -4,9 +4,7 @@ const { forwardQuoteRequestMsg, mlTransferFulfilMsg, createSettlementMsg } = req
 
 describe('Event Processor Service', () => {
   beforeAll(() => {
-    mongoService = jest.fn().mockImplementation((args) => {
-      return { saveToDB: jest.fn().mockImplementation((args) => { }) }
-    })
+    mongoService = { saveToDB: jest.fn().mockImplementation((args) => { }) }
 
     kafkaService = { startConsumer: jest.fn().mockImplementation((args) => { }) }
 
@@ -79,14 +77,33 @@ describe('Event Processor Service', () => {
     expect(determined).toEqual(eventTypes.UNSUPPORTED)
   })
 
-  it('Message handler: Success', () => {
-
-    const origin = JSON.stringify({ metadata: { event: { type: 'audit' } } })
-    let newBuff = Buffer.from(origin);
+  it('Message handler: Success ml_transfer_prepare', () => {
 
     messageArgs = {
-      topic: 'topic-event',
-      message: { value: JSON.stringify(newBuff) }
+      topic: 'topic-event-audit',
+      value: { metadata: { event: { type: 'audit' }, trace: { service: 'ml_transfer_prepare', tags: {transactionId: '1'}} } }
+    }
+
+    eventProcessor.messageHandler(undefined, messageArgs);
+    expect(eventProcessor).toBeDefined();
+  })
+
+  it('Message handler: Success updateSettlementById', () => {
+
+    messageArgs = {
+      topic: 'topic-event-audit',
+      value: { metadata: { event: { type: 'audit' }, trace: { service: 'updateSettlementById'} } }
+    }
+
+    eventProcessor.messageHandler(undefined, messageArgs);
+    expect(eventProcessor).toBeDefined();
+  })
+
+  it('Message handler: Success updateSettlementById', () => {
+
+    messageArgs = {
+      topic: 'topic-event-audit',
+      value: { metadata: { event: { type: 'audit' }, trace: { service: 'closeSettlementWindow'} } }
     }
 
     eventProcessor.messageHandler(undefined, messageArgs);
@@ -98,8 +115,8 @@ describe('Event Processor Service', () => {
     let newBuff = Buffer.from("BadBufferTest");
 
     messageArgs = {
-      topic: 'topic-event',
-      message: { value: JSON.stringify(newBuff) }
+      topic: 'topic-event-audit',
+      value: newBuff
     }
 
     eventProcessor.messageHandler(undefined, messageArgs);
@@ -112,8 +129,8 @@ describe('Event Processor Service', () => {
     let newBuff = Buffer.from(origin);
 
     messageArgs = {
-      topic: 'topic-event',
-      message: { value: newBuff }
+      topic: 'topic-event-audit',
+      value: newBuff
     }
 
     eventProcessor.messageHandler(undefined, messageArgs);

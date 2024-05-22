@@ -32,40 +32,41 @@ class EventProcessorService {
     return true
   }
 
-  async messageHandler (error, args) {
+  async messageHandler (error, events) {
     if (error) throw error
     const listeningTopic = Config.KAFKA.TOPIC_EVENT
 
-    if (args.topic === listeningTopic) {
-      let msg
+    const records = [].concat(events).map(message => {
+      if (message.topic !== listeningTopic) return
+      let event
 
       try {
-        msg = Buffer.isBuffer(args.value) ? JSON.parse(args.value.toString()) : args.value
+        event = Buffer.isBuffer(message.value) ? JSON.parse(message.value.toString()) : message.value
       } catch (error) {
-        console.error('Failed to parse event message.', error, msg)
+        console.error('Failed to parse event message.', error, event)
         return
       }
 
-      if (!this.isAudit(msg)) {
+      if (!this.isAudit(event)) {
         return
       }
 
-      const eventType = this.determineEventType(msg)
+      const eventType = this.determineEventType(event)
 
       if (eventType === eventTypes.UNSUPPORTED) {
         return
       }
 
-      const record = this.transformEvent(msg, eventType)
+      return this.transformEvent(event, eventType)
+    }).filter(Boolean)
 
-      try {
-        await this.mongoDBService.saveToDB(record)
-      } catch (error) {
-        console.error(
-          'Failed to persist kafka event to mongo db',
-          error
-        )
-      }
+    try {
+      if (records.length) await this.mongoDBService.saveToDB(records)
+    } catch (error) {
+      console.error(
+        'Failed to persist kafka event to mongo db',
+        error
+      )
     }
   }
 
