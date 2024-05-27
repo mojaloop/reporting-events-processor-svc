@@ -54,7 +54,7 @@ class MongoDBService {
     try {
       const collection = await this.saveClient.db().collection(Config.EVENT_STORE_DB.EVENTS_COLLECTION)
 
-      collection.insertMany(records)
+      await collection.insertMany(records)
       result = true
     } catch (error) {
       const newErr = new Error(`Error while attempting to save to Mongodb: ${error.message}\nRecord:\n${JSON.stringify(records)}\n`)
