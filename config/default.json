@@ -5,12 +5,22 @@
     "USER": "",
     "PASSWORD": "",
     "DATABASE": "reporting",
+    "APPLY_SCHEMA": true,
     "EVENTS_COLLECTION": "reporting"
   },
   "KAFKA": {
-    "BROKER_LIST": ["localhost:9092"],
-    "CONSUMER_GROUP": "reporting_events_processor_consumer_group",
-    "CLIENT_ID": "reporting_events_processor_consumer",
-    "TOPIC_EVENT": "topic-event"
+    "TOPIC_EVENT": "topic-event-audit",
+    "CONSUMER": {
+      "EVENT": {
+        "config": {
+          "rdkafkaConf": {
+            "clientId": "reporting_events_processor_consumer",
+            "groupId": "reporting_events_processor_consumer_group",
+            "metadataBrokerList": "localhost:9092",
+            "socketKeepaliveEnable": true
+          }
+        }
+      }
+    }
   }
 }

@@ -51,11 +51,12 @@ executors:
   default-docker:
     working_directory: /home/circleci/project
     docker:
-      - image: node:14
+      - image: node:18
 
   default-machine:
+    shell: "/bin/bash -leo pipefail"
     machine:
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2204:2023.04.2
 
 ##
 # Jobs

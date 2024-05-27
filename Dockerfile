@@ -2,9 +2,8 @@ FROM node:18.16.0-alpine as builder
 WORKDIR /opt/app
 
 RUN apk --no-cache add git
-RUN apk add --no-cache -t build-dependencies make gcc g++ python3 libtool libressl-dev openssl-dev autoconf automake \
+RUN apk add --no-cache -t build-dependencies bash make gcc g++ python3 libtool openssl-dev autoconf automake \
     && cd $(npm root -g)/npm \
-    && npm config set unsafe-perm true \
     && npm install -g node-gyp
 
 COPY package.json package-lock.json* /opt/app/
@@ -23,7 +22,7 @@ RUN mkdir ./logs && touch ./logs/combined.log
 RUN ln -sf /dev/stdout ./logs/combined.log
 
 # Create a non-root user: ml-user
-RUN adduser -D ml-user 
+RUN adduser -D ml-user
 USER ml-user
 
 COPY --chown=ml-user --from=builder /opt/app .
