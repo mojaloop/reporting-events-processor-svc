@@ -1,6 +1,8 @@
 const { quotesConstants } = require('../constants/quote-constants')
 const { transferConstants } = require('../constants/transfer-constants')
 const { settlementConstants } = require('../constants/settlement-constants')
+const { fxQuotesConstants } = require('../constants/');
+const { fxTransferConstants } = require('../constants/');
 const { eventTypes } = require('../constants/event-types')
 const { getSettlementReportParams } = require('../custom-transformations/settlement-report-params')
 const Config = require('../lib/config')
@@ -15,6 +17,11 @@ const _getReportingParams = (msg, eventType) => {
   case eventTypes.SETTLEMENT:
   {
     return getSettlementReportParams(msg)
+  }
+  case eventTypes.FXTRANSFER:
+  case eventTypes.FXQUOTE:
+  {
+      return null // TODO: don't know what should be returned at the moment so return null for now
   }
   default:
     return null
@@ -84,6 +91,12 @@ class EventProcessorService {
       }
       for (const service of settlementConstants) {
         if (msg.metadata.trace.service === service) { return eventTypes.SETTLEMENT }
+      }
+      for (const service of fxTransferConstants){
+        if (msg.metadata.trace.service === service) { return eventTypes.FXTRANSFER }
+      }
+      for (const service of fxQuotesConstants){
+        if (msg.metadata.trace.service === service) { return eventTypes.FXQUOTE }
       }
     }
     return eventTypes.UNSUPPORTED
