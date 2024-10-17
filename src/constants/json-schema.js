@@ -114,6 +114,9 @@ const schema = {
             settlementWindowId: {
               bsonType: 'string'
             },
+            conversionId: {
+              bsonType: 'string'
+            },
             eventType: {
               enum: ['Quote', 'Transfer', 'Settlement', 'FxQuote', 'FxTransfer']
             }
