@@ -63,7 +63,7 @@ const schema = {
                 },
                 tags: {
                   bsonType: 'object',
-                  required: ['tracestate', 'transactionType', 'transactionAction', 'transactionId', 'source'], /* destination */
+                  required: ['tracestate', 'transactionType', 'transactionAction', 'source'], /* destination */
                   properties: {
                     tracestate: {
                       bsonType: 'string'
