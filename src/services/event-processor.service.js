@@ -21,7 +21,7 @@ const _getReportingParams = (msg, eventType) => {
   case eventTypes.FXTRANSFER:
   case eventTypes.FXQUOTE:
   {
-    return null // TODO: don't know what should be returned at the moment so return null for now
+    return { transactionId: msg.metadata.trace.tags.transactionId }  
   }
   default:
     return null

@@ -115,7 +115,7 @@ const schema = {
               bsonType: 'string'
             },
             eventType: {
-              enum: ['Quote', 'Transfer', 'Settlement']
+              enum: ['Quote', 'Transfer', 'Settlement', 'FxQuote', 'FxTransfer']
             }
           }
         }
