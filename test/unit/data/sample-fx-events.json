@@ -1,0 +1,428 @@
+{
+  "ml_fxTransfer_prepare" : {
+    "id": "f51b7223-ae56-4564-8ac8-d9315e0fb12e",
+    "content": {
+        "headers": {
+            "content-type": "application/vnd.interoperability.fxTransfers+json;version=2.0",
+            "accept": "application/vnd.interoperability.fxTransfers+json;version=2.0",
+            "date": "2024-10-21T04:26:44.000Z",
+            "fspiop-source": "pinkbankfsp",
+            "traceparent": "00-aabb813aa8cfa449da401a0ceabb3c2c-0123456789abcdef0-00",
+            "user-agent": "axios/0.27.2",
+            "content-length": 398,
+            "host": "ml-api-adapter:3000",
+            "connection": "keep-alive"
+        },
+        "dataUri": "data:application/vnd.interoperability.fxTransfers+json;version=2.0;base64,eyJjb21taXRSZXF1ZXN0SWQiOiIwYjQ1ZWZlZi00Y2UxLTQyNjEtODY5NS1mYzBjYWUwMTI1ZjciLCJkZXRlcm1pbmluZ1RyYW5zZmVySWQiOiI4Y2NiNTRhNS03OTcyLTQ3YTAtOTc4NS0zMjExOWY2ODM1ZGYiLCJpbml0aWF0aW5nRnNwIjoicGlua2Jhbmtmc3AiLCJjb3VudGVyUGFydHlGc3AiOiJ0ZXN0ZnhwMSIsImFtb3VudFR5cGUiOiJTRU5EIiwic291cmNlQW1vdW50Ijp7ImN1cnJlbmN5IjoiQldQIiwiYW1vdW50IjoiMzAwIn0sInRhcmdldEFtb3VudCI6eyJjdXJyZW5jeSI6IlRaUyIsImFtb3VudCI6IjQ4MDAwIn0sImNvbmRpdGlvbiI6ImY1c3FiN3RCVFdQZDVZOEJERmRNbTlCSlJfTU5JNGlzZjhwOG40RDVwSEEiLCJleHBpcmF0aW9uIjoiMjAyNC0xMC0yMlQwNDoyNjo0NC41NzFaIn0=",
+        "payload": {
+            "commitRequestId": "0b45efef-4ce1-4261-8695-fc0cae0125f7",
+            "determiningTransferId": "8ccb54a5-7972-47a0-9785-32119f6835df",
+            "initiatingFsp": "pinkbankfsp",
+            "counterPartyFsp": "testfxp1",
+            "amountType": "SEND",
+            "sourceAmount": {
+                "currency": "BWP",
+                "amount": "300"
+            },
+            "targetAmount": {
+                "currency": "TZS",
+                "amount": "48000"
+            },
+            "condition": "f5sqb7tBTWPd5Y8BDFdMm9BJR_MNI4isf8p8n4D5pHA",
+            "expiration": "2024-10-22T04:26:44.571Z"
+        }
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "0fb530ff-8234-4bf6-bb87-d6260785fcdd",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2024-10-21T04:26:44.577Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "ml_fxTransfer_prepare",
+            "traceId": "aabb813aa8cfa449da401a0ceabb3c2c",
+            "spanId": "e8440234a298ab5a",
+            "sampled": 0,
+            "flags": "00",
+            "startTimestamp": "2024-10-21T04:26:44.576Z",
+            "tags": {
+                "tracestate": "acmevendor=eyJzcGFuSWQiOiJlODQ0MDIzNGEyOThhYjVhIiwidGltZUFwaVByZXBhcmUiOiIxNzI5NDg0ODA0NTc3In0=",
+                "transactionType": "transfer",
+                "transactionAction": "prepare",
+                "source": "pinkbankfsp"
+            },
+            "tracestates": {
+                "acmevendor": {
+                    "spanId": "e8440234a298ab5a",
+                    "timeApiPrepare": "1729484804577"
+                }
+            }
+        },
+        "protocol.createdAt": 1729484804578
+    }
+  },
+  "ml_fxTransfer_fulfill":{
+    "id": "fefe72ba-ef34-43f9-b1da-c0f65fe26f81",
+    "content": {
+        "headers": {
+            "content-type": "application/vnd.interoperability.fxTransfers+json;version=2.0",
+            "date": "2024-10-21T04:26:24.000Z",
+            "x-forwarded-for": "consequat nisi laboris",
+            "fspiop-source": "testfxp1",
+            "fspiop-destination": "pinkbankfsp",
+            "fspiop-encryption": "esse",
+            "fspiop-signature": "amet veniam nulla labore",
+            "fspiop-uri": "non laborum ullamco nisi",
+            "fspiop-http-method": "nulla dolore",
+            "traceparent": "00-aabb813aa8cfa449da401a0ceabb3c2c-780e286ff26dd217-30",
+            "user-agent": "axios/0.27.2",
+            "content-length": 137,
+            "host": "ml-api-adapter:3000",
+            "connection": "keep-alive"
+        },
+        "payload": {
+            "conversionState": "RESERVED",
+            "fulfilment": "WLctttbu2HvTsa1XWvUoGRcQozHsqeu9Ahl2JW9Bsu8",
+            "completedTimestamp": "2024-10-21T04:26:25.114Z"
+        },
+        "params": {
+            "id": "9ece0a2f-08e3-4d10-8ff1-3f084d7a253e"
+        },
+        "dataUri": "data:application/vnd.interoperability.fxTransfers+json;version=2.0;base64,eyJjb252ZXJzaW9uU3RhdGUiOiJSRVNFUlZFRCIsImZ1bGZpbG1lbnQiOiJXTGN0dHRidTJIdlRzYTFYV3ZVb0dSY1FvekhzcWV1OUFobDJKVzlCc3U4IiwiY29tcGxldGVkVGltZXN0YW1wIjoiMjAyNC0xMC0yMVQwNDoyNjoyNS4xMTRaIn0="
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "6d99f686-a366-455a-8817-b6e5576fd0ed",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2024-10-21T04:26:25.524Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "ml_fxTransfer_fulfill",
+            "traceId": "aabb813aa8cfa449da401a0ceabb3c2c",
+            "spanId": "00eb4d6c848d5672",
+            "sampled": 0,
+            "flags": "30",
+            "startTimestamp": "2024-10-21T04:26:25.522Z",
+            "tags": {
+                "tracestate": "acmevendor=eyJzcGFuSWQiOiIwMGViNGQ2Yzg0OGQ1NjcyIiwidGltZUFwaUZ1bGZpbCI6IjE3Mjk0ODQ3ODU1MjQifQ==",
+                "transactionType": "transfer",
+                "transactionAction": "fulfil",
+                "transactionId": "9ece0a2f-08e3-4d10-8ff1-3f084d7a253e",
+                "source": "testfxp1",
+                "destination": "pinkbankfsp"
+            },
+            "tracestates": {
+                "acmevendor": {
+                    "spanId": "00eb4d6c848d5672",
+                    "timeApiFulfil": "1729484785524"
+                }
+            }
+        },
+        "protocol.createdAt": 1729484785525
+    }
+  },
+  "ml_fxTransfer_patch": {
+
+  },
+  "ml_fxTransfer_getById": {
+    "id": "3b4cec64-7bc0-4f36-ae02-d8b58f221991",
+    "content": {
+        "headers": {
+            "accept": "application/vnd.interoperability.fxTransfers+json;version=2.0",
+            "content-type": "application/vnd.interoperability.fxTransfers+json;version=2.0",
+            "date": "2024-10-21T04:26:25.000Z",
+            "fspiop-source": "pinkbankfsp",
+            "traceparent": "00-aabb813aa8cfa449da401a0ceabb3c2c-0123456789abcdef0-00",
+            "user-agent": "axios/0.27.2",
+            "host": "ml-api-adapter:3000",
+            "connection": "keep-alive"
+        },
+        "params": {
+            "id": "9ece0a2f-08e3-4d10-8ff1-3f084d7a253e"
+        }
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "ca007ec4-9a3a-41f9-a6a4-e7f44bf2c578",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2024-10-21T04:26:25.722Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "ml_fxTransfer_getById",
+            "traceId": "aabb813aa8cfa449da401a0ceabb3c2c",
+            "spanId": "1c5a39ff6118df60",
+            "sampled": 0,
+            "flags": "00",
+            "startTimestamp": "2024-10-21T04:26:25.719Z",
+            "tags": {
+                "tracestate": "acmevendor=eyJzcGFuSWQiOiIxYzVhMzlmZjYxMThkZjYwIn0=",
+                "transactionType": "transfer",
+                "transactionAction": "get",
+                "transactionId": "9ece0a2f-08e3-4d10-8ff1-3f084d7a253e",
+                "source": "pinkbankfsp"
+            },
+            "tracestates": {
+                "acmevendor": {
+                    "spanId": "1c5a39ff6118df60"
+                }
+            }
+        },
+        "protocol.createdAt": 1729484785722
+    }
+  },
+  "ml_fxTransfer_abort" : {},
+  "qs_quote_forwardFxQuoteUpdate": {},
+  "qs_fxQuote_forwardFxQuoteUpdate" : {
+    "id": "d16edb4e-d93b-4182-989a-162966fdfe82",
+    "content": {
+        "headers": {
+            "content-type": "application/vnd.interoperability.fxQuotes+json;version=2.0",
+            "date": "Mon, 21 Oct 2024 04:26:41 GMT",
+            "x-forwarded-for": "quis dolor",
+            "fspiop-source": "testfxp1",
+            "fspiop-destination": "pinkbankfsp",
+            "fspiop-encryption": "anim",
+            "fspiop-signature": "tempor officia elit consectetur",
+            "fspiop-uri": "consequat in",
+            "fspiop-http-method": "ullamco non id irure laboris",
+            "traceparent": "00-aabb813aa8cfa449da401a0ceabb3c2c-20bbb5c797a64d10-30",
+            "user-agent": "axios/0.27.2",
+            "content-length": "828",
+            "host": "quoting-service:3002",
+            "connection": "keep-alive"
+        },
+        "params": {
+            "conversionRequestId": "1e4d3b8d-9b1a-491c-9bb1-86c20a5cc9c4"
+        },
+        "payload": {
+            "conversionTerms": {
+                "conversionId": "0b45efef-4ce1-4261-8695-fc0cae0125f7",
+                "initiatingFsp": "PayerFSP",
+                "counterPartyFsp": "testfxp1",
+                "amountType": "SEND",
+                "sourceAmount": {
+                    "currency": "BWP",
+                    "amount": "300"
+                },
+                "targetAmount": {
+                    "currency": "TZS",
+                    "amount": "500"
+                },
+                "expiration": "2023-12-25T14:17:09.663+01:00",
+                "extensionList": {
+                    "extension": [
+                        {
+                            "key": "dolore commodo ",
+                            "value": "aliqua magna qui esse nostrud"
+                        },
+                        {
+                            "key": "mini",
+                            "value": "mollit Lorem reprehenderit anim"
+                        }
+                    ]
+                },
+                "charges": [
+                    {
+                        "chargeType": "string",
+                        "targetAmount": {
+                            "currency": "TZS",
+                            "amount": "6000"
+                        },
+                        "sourceAmount": {
+                            "currency": "BWP",
+                            "amount": "33"
+                        }
+                    },
+                    {
+                        "chargeType": "fugiat conse",
+                        "sourceAmount": {
+                            "currency": "SEK",
+                            "amount": "0"
+                        },
+                        "targetAmount": {
+                            "currency": "SZL",
+                            "amount": "0"
+                        }
+                    }
+                ],
+                "determiningTransferId": "b51ec534-ee48-4575-b6a9-ead2955b8069"
+            },
+            "condition": "f5sqb7tBTWPd5Y8BDFdMm9BJR_MNI4isf8p8n4D5pHA"
+        }
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "e8fff380-1294-4a7a-82a8-6293b3bc5c3b",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2024-10-21T04:26:43.655Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "qs_fxQuote_forwardFxQuoteUpdate",
+            "traceId": "aabb813aa8cfa449da401a0ceabb3c2c",
+            "spanId": "5b9f4a05afcdb46c",
+            "sampled": 0,
+            "flags": "30",
+            "parentSpanId": "7ffb8c6779b2987c",
+            "startTimestamp": "2024-10-21T04:26:43.654Z",
+            "tags": {
+                "tracestate": "acmevendor=eyJzcGFuSWQiOiI1YjlmNGEwNWFmY2RiNDZjIn0=",
+                "transactionType": "fxquote",
+                "transactionAction": "put",
+                "transactionId": "1e4d3b8d-9b1a-491c-9bb1-86c20a5cc9c4",
+                "quoteId": "1e4d3b8d-9b1a-491c-9bb1-86c20a5cc9c4",
+                "source": "testfxp1",
+                "destination": "pinkbankfsp"
+            },
+            "tracestates": {
+                "acmevendor": {
+                    "spanId": "5b9f4a05afcdb46c"
+                }
+            }
+        },
+        "protocol.createdAt": 1729484803655
+    }
+  },
+  "qs_quote_forwardFxQuoteError": {},
+  "qs_quote_forwardFxQuoteGet": {},
+  "qs_fxquote_forwardFxQuoteRequest": {},
+  "qs_fxQuote_forwardFxQuoteRequest_type1": {
+    "id": "d8d1f8c6-9af7-4224-9123-c782192b68fa",
+    "content": {
+        "headers": {
+            "content-type": "application/vnd.interoperability.fxQuotes+json;version=2.0",
+            "accept": "application/vnd.interoperability.fxQuotes+json;version=2.0",
+            "date": "Mon, 21 Oct 2024 04:26:41 GMT",
+            "fspiop-source": "pinkbankfsp",
+            "fspiop-destination": "testfxp1",
+            "traceparent": "00-aabb813aa8cfa449da401a0ceabb3c2c-0123456789abcdef0-00",
+            "user-agent": "axios/0.27.2",
+            "content-length": "343",
+            "host": "quoting-service:3002",
+            "connection": "keep-alive"
+        },
+        "payload": {
+            "conversionRequestId": "1e4d3b8d-9b1a-491c-9bb1-86c20a5cc9c4",
+            "conversionTerms": {
+                "conversionId": "0b45efef-4ce1-4261-8695-fc0cae0125f7",
+                "initiatingFsp": "pinkbankfsp",
+                "counterPartyFsp": "testfxp1",
+                "amountType": "SEND",
+                "sourceAmount": {
+                    "currency": "BWP",
+                    "amount": "300"
+                },
+                "targetAmount": {
+                    "currency": "TZS"
+                },
+                "expiration": "2023-12-25T14:17:09.663+01:00"
+            }
+        }
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "43bf4ef6-fa83-42a5-8312-b1e907481677",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2024-10-21T04:26:42.318Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "qs_fxQuote_forwardFxQuoteRequest",
+            "traceId": "aabb813aa8cfa449da401a0ceabb3c2c",
+            "spanId": "20bbb5c797a64d10",
+            "sampled": 0,
+            "flags": "00",
+            "parentSpanId": "f166b9f96cd4e78f",
+            "startTimestamp": "2024-10-21T04:26:42.318Z",
+            "tags": {
+                "tracestate": "acmevendor=eyJzcGFuSWQiOiIyMGJiYjVjNzk3YTY0ZDEwIn0=",
+                "transactionType": "fxquote",
+                "transactionAction": "post",
+                "source": "pinkbankfsp",
+                "destination": "testfxp1"
+            },
+            "tracestates": {
+                "acmevendor": {
+                    "spanId": "20bbb5c797a64d10"
+                }
+            }
+        },
+        "protocol.createdAt": 1729484802319
+    }
+  },
+  "qs_fxQuote_forwardFxQuoteRequest_type2":{
+    "id": "b775e537-715c-48a1-b8bb-09704bdf8b0c",
+    "content": {
+        "method": "POST",
+        "url": "http://mojaloop-testing-toolkit:4040/fxQuotes",
+        "data": "{\"conversionRequestId\":\"1e4d3b8d-9b1a-491c-9bb1-86c20a5cc9c4\",\"conversionTerms\":{\"conversionId\":\"0b45efef-4ce1-4261-8695-fc0cae0125f7\",\"initiatingFsp\":\"pinkbankfsp\",\"counterPartyFsp\":\"testfxp1\",\"amountType\":\"SEND\",\"sourceAmount\":{\"currency\":\"BWP\",\"amount\":\"300\"},\"targetAmount\":{\"currency\":\"TZS\"},\"expiration\":\"2023-12-25T14:17:09.663+01:00\"}}",
+        "headers": {
+            "Accept": "application/vnd.interoperability.fxQuotes+json;version=2.0",
+            "Content-Type": "application/vnd.interoperability.fxQuotes+json;version=2.0",
+            "Date": "Mon, 21 Oct 2024 04:26:41 GMT",
+            "FSPIOP-Source": "pinkbankfsp",
+            "FSPIOP-Destination": "testfxp1",
+            "traceparent": "00-aabb813aa8cfa449da401a0ceabb3c2c-20bbb5c797a64d10-30",
+            "tracestate": "acmevendor=eyJzcGFuSWQiOiIyMGJiYjVjNzk3YTY0ZDEwIn0="
+        }
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "9ad3a1d3-c80e-45db-b269-d95cb84a4d2a",
+            "type": "audit",
+            "action": "egress",
+            "createdAt": "2024-10-21T04:26:42.329Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "qs_fxQuote_forwardFxQuoteRequest",
+            "traceId": "aabb813aa8cfa449da401a0ceabb3c2c",
+            "spanId": "20bbb5c797a64d10",
+            "sampled": 0,
+            "flags": "00",
+            "parentSpanId": "f166b9f96cd4e78f",
+            "startTimestamp": "2024-10-21T04:26:42.318Z",
+            "tags": {
+                "tracestate": "acmevendor=eyJzcGFuSWQiOiIyMGJiYjVjNzk3YTY0ZDEwIn0=",
+                "transactionType": "fxquote",
+                "transactionAction": "post",
+                "source": "pinkbankfsp",
+                "destination": "testfxp1"
+            },
+            "tracestates": {
+                "acmevendor": {
+                    "spanId": "20bbb5c797a64d10"
+                }
+            }
+        },
+        "protocol.createdAt": 1729484802330
+    }
+  },
+  "qs_fxQuote_sendErrorCallback": {}
+}
