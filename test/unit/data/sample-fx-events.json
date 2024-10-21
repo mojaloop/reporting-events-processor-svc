@@ -424,5 +424,116 @@
         "protocol.createdAt": 1729484802330
     }
   },
-  "qs_fxQuote_sendErrorCallback": {}
+  "qs_fxQuote_sendErrorCallback": {},
+  "FxQuotesByIdPut": {
+    "id": "d3684d61-5964-4509-9b20-a00e472964b8",
+    "content": {
+        "headers": {
+            "content-type": "application/vnd.interoperability.fxQuotes+json;version=2.0",
+            "date": "Mon, 21 Oct 2024 06:05:46 GMT",
+            "x-forwarded-for": "occaecat ut",
+            "fspiop-source": "testfxp1",
+            "fspiop-destination": "pinkbankfsp",
+            "fspiop-encryption": "cillum esse eiusmod",
+            "fspiop-signature": "id do in amet",
+            "fspiop-uri": "consequat Lorem in",
+            "fspiop-http-method": "magna",
+            "traceparent": "00-aabb109de4b7b04589b7a757b1a94b03-98054258a14d6b67-30",
+            "user-agent": "axios/0.27.2",
+            "content-length": "789",
+            "host": "quoting-service:3002",
+            "connection": "keep-alive"
+        },
+        "payload": {
+            "conversionTerms": {
+                "conversionId": "68194819-56db-4a1a-80b0-c80dfc6ad85b",
+                "initiatingFsp": "PayerFSP",
+                "counterPartyFsp": "testfxp1",
+                "amountType": "SEND",
+                "sourceAmount": {
+                    "currency": "BWP",
+                    "amount": "300"
+                },
+                "targetAmount": {
+                    "currency": "TZS",
+                    "amount": "500"
+                },
+                "expiration": "2023-12-25T14:17:09.663+01:00",
+                "determiningTransferId": "b51ec534-ee48-4575-b6a9-ead2955b8069",
+                "charges": [
+                    {
+                        "chargeType": "string",
+                        "targetAmount": {
+                            "currency": "TZS",
+                            "amount": "6000"
+                        },
+                        "sourceAmount": {
+                            "currency": "BWP",
+                            "amount": "33"
+                        }
+                    },
+                    {
+                        "chargeType": "cillum",
+                        "sourceAmount": {
+                            "currency": "SEK",
+                            "amount": "8"
+                        },
+                        "targetAmount": {
+                            "currency": "GHS",
+                            "amount": "0.086"
+                        }
+                    }
+                ],
+                "extensionList": {
+                    "extension": [
+                        {
+                            "key": "in do",
+                            "value": "in sunt ad veniam"
+                        },
+                        {
+                            "key": "elit labore",
+                            "value": "cupidatat"
+                        }
+                    ]
+                }
+            },
+            "condition": "f5sqb7tBTWPd5Y8BDFdMm9BJR_MNI4isf8p8n4D5pHA"
+        }
+    },
+    "type": "application/json",
+    "metadata": {
+        "event": {
+            "id": "923c3a35-2271-4863-97a8-849b24d3fc4f",
+            "type": "audit",
+            "action": "start",
+            "createdAt": "2024-10-21T06:05:47.748Z",
+            "state": {
+                "status": "success"
+            }
+        },
+        "trace": {
+            "service": "FxQuotesByIdPut",
+            "traceId": "aabb109de4b7b04589b7a757b1a94b03",
+            "spanId": "ec3d058c2725af8f",
+            "sampled": 0,
+            "flags": "30",
+            "startTimestamp": "2024-10-21T06:05:47.747Z",
+            "tags": {
+                "tracestate": "acmevendor=eyJzcGFuSWQiOiJlYzNkMDU4YzI3MjVhZjhmIn0=",
+                "transactionType": "quote",
+                "transactionAction": "put",
+                "transactionId": "80fb8726-bc99-46af-b74f-a863689000da",
+                "quoteId": "80fb8726-bc99-46af-b74f-a863689000da",
+                "source": "testfxp1",
+                "destination": "pinkbankfsp"
+            },
+            "tracestates": {
+                "acmevendor": {
+                    "spanId": "ec3d058c2725af8f"
+                }
+            }
+        },
+        "protocol.createdAt": 1729490747749
+    }
+  }
 }

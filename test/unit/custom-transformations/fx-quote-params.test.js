@@ -1,6 +1,6 @@
 const { getFxQuoteParams } = require('../../../src/custom-transformations/fx-quote-params')
 const { msgWithNoService } = require('../data/sample-events')
-const { qs_fxQuote_forwardFxQuoteRequest_type2, qs_fxQuote_forwardFxQuoteRequest_type1, qs_fxQuote_forwardFxQuoteUpdate } = require('../data/sample-fx-events')
+const { qs_fxQuote_forwardFxQuoteRequest_type2, qs_fxQuote_forwardFxQuoteRequest_type1, qs_fxQuote_forwardFxQuoteUpdate, FxQuotesByIdPut } = require('../data/sample-fx-events')
 
 describe('getSettlementReportParams', () => {
   it('Message with no service', () => {
@@ -25,5 +25,11 @@ describe('getSettlementReportParams', () => {
     const result = getFxQuoteParams(qs_fxQuote_forwardFxQuoteUpdate)
     expect(result).toHaveProperty('transactionId')
     expect(result.transactionId).toEqual(qs_fxQuote_forwardFxQuoteUpdate.metadata.trace.tags.transactionId)
+  })
+
+  it('FxQuotesByIdPut', () => {
+    const result = getFxQuoteParams(FxQuotesByIdPut)
+    expect(result).toHaveProperty('transactionId')
+    expect(result.transactionId).toEqual(FxQuotesByIdPut.metadata.trace.tags.transactionId)
   })
 })
