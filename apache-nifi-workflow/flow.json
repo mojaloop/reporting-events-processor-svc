@@ -4777,7 +4777,7 @@
                 },
                 "properties": {
                     "ssl-client-auth": "REQUIRED",
-                    "mongo-uri": "mongodb://${REPORTING_EVENTS_DB_HOST}:${REPORTING_EVENTS_DB_PORT}/?authSource={$REPORTING_EVENTS_DB_DATABASE}",
+                    "mongo-uri": "mongodb://${REPORTING_EVENTS_DB_HOST}:${REPORTING_EVENTS_DB_PORT}/?authSource=${REPORTING_EVENTS_DB_DATABASE}",
                     "Database User": "${REPORTING_EVENTS_DB_USER}",
                     "Password": "${EVENT_STORE_DB_PASSWORD}"
                 },
