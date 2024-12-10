@@ -4282,7 +4282,7 @@
           "Database User": "${REPORTING_DB_USER}",
           "dbcp-soft-min-evictable-idle-time": "-1",
           "dbcp-max-idle-conns": "8",
-          "Password": "enc{04521d3d7325503170158065a83de4b767292c31a53b171e48a46d655bec01c939dc9f8c37030e605f518340f06109ea124e6da1ce9af175}"
+          "Password": "${REPORTING_DB_PASSWORD}"
         },
         "propertyDescriptors": {},
         "controllerServiceApis": [
