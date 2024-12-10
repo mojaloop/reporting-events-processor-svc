@@ -1,6 +1,5 @@
-We are using Apache Nifi service to construct reporting information.
-And the workflow file `flow.json` is maintained in this repository.
-The Nifi service downloads the workflow file from this repository and executes the workflow.
+> [!NOTE]  
+> We use an Apache NiFi service to construct reporting information. The `flow.json` workflow file, maintained in this repository, is downloaded and executed by the NiFi service as part of the workflow process. While the flow.json file may not seem directly linked to the rest of this repository, it is included here to support the NiFi service's operation and ensure seamless integration. And the helm chart is at this [link](https://github.com/mojaloop/charts/tree/master/mojaloop/reporting-nifi-processor-svc)
 
 # Instructions to start apache nifi and configuration steps
 
