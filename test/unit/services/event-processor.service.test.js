@@ -1,6 +1,7 @@
 const { eventTypes } = require('../../../src/constants/event-types.js')
 const { EventProcessorService } = require('../../../src/services/event-processor.service.js')
 const { forwardQuoteRequestMsg, mlTransferFulfilMsg, createSettlementMsg } = require('../data/sample-events.json')
+const { ml_fxTransfer_prepare, qs_fxQuote_forwardFxQuoteUpdate } = require('../data/sample-fx-events.json')
 
 describe('Event Processor Service', () => {
   beforeAll(() => {
@@ -34,6 +35,33 @@ describe('Event Processor Service', () => {
     expect(transformed.metadata.reporting).toHaveProperty('transactionId')
     expect(transformed.metadata.reporting.eventType).toEqual(eventTypes.QUOTE)
     expect(transformed.metadata.reporting.transactionId).toEqual(msg.metadata.trace.tags.transactionId)
+  })
+
+  it('Determine transformation of fxQuote message', () => {
+    const msg = qs_fxQuote_forwardFxQuoteUpdate
+
+    const transformed = transformEvent(msg, eventTypes.FXQUOTE)
+    expect(transformed).toHaveProperty('event')
+    expect(transformed).toHaveProperty('metadata')
+    expect(transformed.metadata).toHaveProperty('reporting')
+    expect(transformed.metadata.reporting).toHaveProperty('eventType')
+    expect(transformed.metadata.reporting).toHaveProperty('transactionId')
+    expect(transformed.metadata.reporting.eventType).toEqual(eventTypes.FXQUOTE)
+    expect(transformed.metadata.reporting.transactionId).toEqual(msg.metadata.trace.tags.transactionId)
+  })
+
+  it('Determine transformation of fxTransfer message', () => {
+    const msg = ml_fxTransfer_prepare 
+
+    const transformed = transformEvent(msg, eventTypes.FXTRANSFER)
+    expect(transformed).toHaveProperty('event')
+    expect(transformed).toHaveProperty('metadata')
+    expect(transformed.metadata).toHaveProperty('reporting')
+    expect(transformed.metadata.reporting).toHaveProperty('eventType')
+    expect(transformed.metadata.reporting).toHaveProperty('transactionId')
+    expect(transformed.metadata.reporting.eventType).toEqual(eventTypes.FXTRANSFER)
+    // Using commitRequestId in this case as the ml_fxTransfer_prepare has no transactionId and it is mapped to commitRequestId for it
+    expect(transformed.metadata.reporting.transactionId).toEqual(msg.content.payload.commitRequestId)
   })
 
   it('Determine transformation of settlement message', () => {
@@ -70,11 +98,47 @@ describe('Event Processor Service', () => {
     expect(determined).toEqual(eventTypes.SETTLEMENT)
   })
 
+  it('Determine eventType: FXTRANSFER', () => {
+    const msg = ml_fxTransfer_prepare
+
+    const determined = determineEventType(msg)
+    expect(determined).toEqual(eventTypes.FXTRANSFER)
+  })
+
+  it('Determine eventType: FXQUOTE', () => {
+    const msg = qs_fxQuote_forwardFxQuoteUpdate 
+
+    const determined = determineEventType(msg)
+    expect(determined).toEqual(eventTypes.FXQUOTE)
+  })
+
   it('Determine eventType: Unsupported', () => {
     const msg = { Test: "Data" }
 
     const determined = determineEventType(msg)
     expect(determined).toEqual(eventTypes.UNSUPPORTED)
+  })
+
+  it('Message handler: Success ml_fxTransfer_fulfill', () => {
+
+    messageArgs = {
+      topic: 'topic-event-audit',
+      value: { metadata: { event: { type: 'audit' }, trace: { service: 'ml_fxTransfer_fulfill', tags: {transactionId: '1'}} } }
+    }
+
+    eventProcessor.messageHandler(undefined, messageArgs);
+    expect(eventProcessor).toBeDefined();
+  })
+  
+  it('Message handler: Success qs_fxQuote_forwardFxQuoteUpdate', () => {
+
+    messageArgs = {
+      topic: 'topic-event-audit',
+      value: { metadata: { event: { type: 'audit' }, trace: { service: 'qs_fxQuote_forwardFxQuoteUpdate', tags: {transactionId: '1'}} } }
+    }
+
+    eventProcessor.messageHandler(undefined, messageArgs);
+    expect(eventProcessor).toBeDefined();
   })
 
   it('Message handler: Success ml_transfer_prepare', () => {
@@ -99,7 +163,7 @@ describe('Event Processor Service', () => {
     expect(eventProcessor).toBeDefined();
   })
 
-  it('Message handler: Success updateSettlementById', () => {
+  it('Message handler: Success closeSettlementWindow', () => {
 
     messageArgs = {
       topic: 'topic-event-audit',
