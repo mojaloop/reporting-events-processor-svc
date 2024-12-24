@@ -63,7 +63,7 @@ const schema = {
                 },
                 tags: {
                   bsonType: 'object',
-                  required: ['tracestate', 'transactionType', 'transactionAction', 'transactionId', 'source'], /* destination */
+                  required: ['tracestate', 'transactionType', 'transactionAction', 'source'], /* destination, transactionId */
                   properties: {
                     tracestate: {
                       bsonType: 'string'
@@ -116,8 +116,11 @@ const schema = {
             settlementWindowId: {
               bsonType: 'string'
             },
+            conversionId: {
+              bsonType: 'string'
+            },
             eventType: {
-              enum: ['Quote', 'Transfer', 'Settlement'],
+              enum: ['Quote', 'Transfer', 'Settlement', 'FxQuote', 'FxTransfer'],
               index:true
             }
           }
