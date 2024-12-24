@@ -100,13 +100,15 @@ const schema = {
           required: ['eventType'], /* "quoteId" */
           properties: {
             transactionId: {
-              bsonType: 'string'
+              bsonType: 'string',
+              index:true
             },
             quoteId: {
               bsonType: 'string'
             },
             transferId: {
-              bsonType: 'string'
+              bsonType: 'string',
+              index:true
             },
             settlementId: {
               bsonType: 'string'
@@ -115,7 +117,8 @@ const schema = {
               bsonType: 'string'
             },
             eventType: {
-              enum: ['Quote', 'Transfer', 'Settlement']
+              enum: ['Quote', 'Transfer', 'Settlement'],
+              index:true
             }
           }
         }
