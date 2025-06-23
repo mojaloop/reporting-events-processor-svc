@@ -8,6 +8,7 @@
     "APPLY_SCHEMA": true,
     "EVENTS_COLLECTION": "reporting"
   },
+  "DOCUMENT_DB_MODE": false,
   "KAFKA": {
     "TOPIC_EVENT": "topic-event-audit",
     "CONSUMER": {

@@ -3,6 +3,12 @@ const path = require('path')
 
 // Declare configuration schema, default values and bindings to environment variables
 const ConvictConfig = Convict({
+  DOCUMENT_DB_MODE: {
+    doc: 'Use MongoDB in DocumentDB mode',
+    format: Boolean,
+    default: false,
+    env: 'DOCUMENT_DB_MODE',
+  },
   EVENT_STORE_DB: {
     HOST: {
       doc: 'The Hostname/IP address of database',
@@ -76,6 +82,7 @@ ConvictConfig.validate({ allowed: 'strict' })
 const config = {
   EVENT_STORE_DB: ConvictConfig.get('EVENT_STORE_DB'),
   KAFKA: ConvictConfig.get('KAFKA'),
+  DOCUMENT_DB_MODE: ConvictConfig.get('DOCUMENT_DB_MODE'),
 }
 
 module.exports = config
