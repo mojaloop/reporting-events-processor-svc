@@ -18,9 +18,7 @@ async function main () {
     user: Config.EVENT_STORE_DB.USER,
     password: Config.EVENT_STORE_DB.PASSWORD,
     path: [Config.EVENT_STORE_DB.DATABASE],
-    params: Config.EVENT_STORE_DB.DOCUMENT_DB_MODE
-      ? { 'retryWrites': 'false' }
-      : {}
+    params: Config.EVENT_STORE_DB.PARAMS
   })
 
   const mongoDBService = new MongoDBService(csMongoDBObj.toString())

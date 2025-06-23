@@ -6,9 +6,9 @@
     "PASSWORD": "",
     "DATABASE": "reporting",
     "APPLY_SCHEMA": true,
-    "EVENTS_COLLECTION": "reporting"
+    "EVENTS_COLLECTION": "reporting",
+    "PARAMS": {}
   },
-  "DOCUMENT_DB_MODE": false,
   "KAFKA": {
     "TOPIC_EVENT": "topic-event-audit",
     "CONSUMER": {
