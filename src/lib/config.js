@@ -46,6 +46,12 @@ const ConvictConfig = Convict({
       default: false,
       env: 'EVENT_STORE_APPLY_SCHEMA',
     },
+    PARAMS: {
+      doc: 'Additional parameters for MongoDB connection',
+      format: Object,
+      default: {},
+      env: 'EVENT_STORE_DB_PARAMS',
+    }
   },
   KAFKA: {
     TOPIC_EVENT: {

@@ -14,10 +14,11 @@ async function main () {
   const csMongoDBObj = new ConnectionString()
   csMongoDBObj.setDefaults({
     protocol: 'mongodb',
-    hosts: [{ name: Config.EVENT_STORE_DB.HOST, port: Config.EVENT_STORE_DB.PORT}],
+    hosts: [{ name: Config.EVENT_STORE_DB.HOST, port: Config.EVENT_STORE_DB.PORT }],
     user: Config.EVENT_STORE_DB.USER,
     password: Config.EVENT_STORE_DB.PASSWORD,
-    path: [Config.EVENT_STORE_DB.DATABASE]
+    path: [Config.EVENT_STORE_DB.DATABASE],
+    params: Config.EVENT_STORE_DB.PARAMS
   })
 
   const mongoDBService = new MongoDBService(csMongoDBObj.toString())
