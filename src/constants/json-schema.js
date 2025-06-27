@@ -101,14 +101,12 @@ const schema = {
           properties: {
             transactionId: {
               bsonType: 'string',
-              index:true
             },
             quoteId: {
               bsonType: 'string'
             },
             transferId: {
               bsonType: 'string',
-              index:true
             },
             settlementId: {
               bsonType: 'string'
@@ -121,7 +119,6 @@ const schema = {
             },
             eventType: {
               enum: ['Quote', 'Transfer', 'Settlement', 'FxQuote', 'FxTransfer'],
-              index:true
             }
           }
         }
