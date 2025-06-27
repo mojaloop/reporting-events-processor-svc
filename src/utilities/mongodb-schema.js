@@ -6,6 +6,11 @@ const createReportingSchema = async (client, colName) => {
       $jsonSchema: schema
     }
   })
+
+  // Create indexes for fields that require them
+  await client.db().collection(colName).createIndex({ 'metadata.reporting.transactionId': 1 })
+  await client.db().collection(colName).createIndex({ 'metadata.reporting.transferId': 1 })
+  await client.db().collection(colName).createIndex({ 'metadata.reporting.eventType': 1 })
 }
 
 const applySchema = async (client, colName) => {
