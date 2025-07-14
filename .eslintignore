@@ -1,6 +1,0 @@
-coverage
-templates
-docs
-examples
-**/node_modules
-*.test.js
