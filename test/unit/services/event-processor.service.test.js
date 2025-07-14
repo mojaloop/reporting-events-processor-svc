@@ -4,6 +4,13 @@ const { forwardQuoteRequestMsg, mlTransferFulfilMsg, createSettlementMsg } = req
 const { ml_fxTransfer_prepare, qs_fxQuote_forwardFxQuoteUpdate } = require('../data/sample-fx-events.json')
 
 describe('Event Processor Service', () => {
+  let mongoService
+  let kafkaService
+  let eventProcessor
+  let transformEvent
+  let isAudit
+  let determineEventType
+
   beforeAll(() => {
     mongoService = { saveToDB: jest.fn().mockImplementation((args) => { }) }
 
@@ -121,7 +128,7 @@ describe('Event Processor Service', () => {
 
   it('Message handler: Success ml_fxTransfer_fulfill', () => {
 
-    messageArgs = {
+    const messageArgs = {
       topic: 'topic-event-audit',
       value: { metadata: { event: { type: 'audit' }, trace: { service: 'ml_fxTransfer_fulfill', tags: {transactionId: '1'}} } }
     }
@@ -132,7 +139,7 @@ describe('Event Processor Service', () => {
   
   it('Message handler: Success qs_fxQuote_forwardFxQuoteUpdate', () => {
 
-    messageArgs = {
+    const messageArgs = {
       topic: 'topic-event-audit',
       value: { metadata: { event: { type: 'audit' }, trace: { service: 'qs_fxQuote_forwardFxQuoteUpdate', tags: {transactionId: '1'}} } }
     }
@@ -143,7 +150,7 @@ describe('Event Processor Service', () => {
 
   it('Message handler: Success ml_transfer_prepare', () => {
 
-    messageArgs = {
+    const messageArgs = {
       topic: 'topic-event-audit',
       value: { metadata: { event: { type: 'audit' }, trace: { service: 'ml_transfer_prepare', tags: {transactionId: '1'}} } }
     }
@@ -154,7 +161,7 @@ describe('Event Processor Service', () => {
 
   it('Message handler: Success updateSettlementById', () => {
 
-    messageArgs = {
+    const messageArgs = {
       topic: 'topic-event-audit',
       value: { metadata: { event: { type: 'audit' }, trace: { service: 'updateSettlementById'} } }
     }
@@ -165,7 +172,7 @@ describe('Event Processor Service', () => {
 
   it('Message handler: Success closeSettlementWindow', () => {
 
-    messageArgs = {
+    const messageArgs = {
       topic: 'topic-event-audit',
       value: { metadata: { event: { type: 'audit' }, trace: { service: 'closeSettlementWindow'} } }
     }
@@ -178,7 +185,7 @@ describe('Event Processor Service', () => {
 
     let newBuff = Buffer.from("BadBufferTest");
 
-    messageArgs = {
+    const messageArgs = {
       topic: 'topic-event-audit',
       value: newBuff
     }
@@ -192,7 +199,7 @@ describe('Event Processor Service', () => {
     const origin = JSON.stringify({ metadata: { event: { type: 'notAudit' } } })
     let newBuff = Buffer.from(origin);
 
-    messageArgs = {
+    const messageArgs = {
       topic: 'topic-event-audit',
       value: newBuff
     }
@@ -207,7 +214,7 @@ describe('Event Processor Service', () => {
 
   it('initialize', () => {
 
-    spyStartConsumer = jest
+    const spyStartConsumer = jest
       .spyOn(kafkaService, 'startConsumer')
       .mockImplementation((props) => { eventProcessor.messageHandler(undefined, props) });
 

@@ -88,7 +88,7 @@ describe('Kafka Service', () => {
       throw new Error('test error')
     })
 
-    await expect(kafkaService.startConsumer()).rejects.toThrowError()
+    await expect(kafkaService.startConsumer()).rejects.toThrow('test error')
   })
 
 })
