@@ -1,4 +1,4 @@
-FROM node:18.16.0-alpine as builder
+FROM node:lts-alpine as builder
 WORKDIR /opt/app
 
 RUN apk --no-cache add git
@@ -14,7 +14,7 @@ COPY src /opt/app/src
 COPY config /opt/app/config
 COPY test /opt/app/test
 
-FROM node:18.16.0-alpine
+FROM node:lts-alpine
 WORKDIR /opt/app
 
 # Create empty log file & link stdout to the application log file

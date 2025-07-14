@@ -1,7 +1,8 @@
 const { MongoClient } = require('mongodb')
+const { ConnectionString } = require('connection-string')
 const { createReportingSchema, applySchema } = require('../../../src/utilities/mongodb-schema.js')
 const { MongoDBService } = require('../../../src/services/mongo-db.service.js')
-// const Config = require('../../../src/lib/config')
+const Config = require('../../../src/lib/config')
 
 const csMongoDBObj = new ConnectionString()
 csMongoDBObj.setDefaults({
@@ -11,9 +12,13 @@ csMongoDBObj.setDefaults({
   password: Config.EVENT_STORE_DB.PASSWORD,
   path: [Config.EVENT_STORE_DB.DATABASE]
 })
-jestMongoURL = csMongoDBObj.toString()
+const jestMongoURL = csMongoDBObj.toString()
 
 describe('MongoDB Functionality', () => {
+  let connection
+  let db
+  let processedQuote
+  let mongodbService
 
   beforeAll(async () => {
     
