@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb')
 const Config = require('../lib/config')
 const { createReportingSchema, applySchema } = require('../utilities/mongodb-schema')
+const { logger } = require('../shared/logger')
 
 class MongoDBService {
   constructor (mongoDbURI) {
@@ -18,28 +19,28 @@ class MongoDBService {
       const res = await mongo.db().command({ ping: 1 })
 
       if (res.ok === 1) {
-        console.log('Connected to Mongo DB')
+        logger.info('Connected to Mongo DB')
         result = true
 
         const collections = await mongo.db().listCollections().toArray()
         if (!collections.find(col => col.name === Config.EVENT_STORE_DB.EVENTS_COLLECTION)) {
           await createReportingSchema(mongo, Config.EVENT_STORE_DB.EVENTS_COLLECTION)
-          console.log('Set up Mongo DB Datasets & Schema')
+          logger.info('Set up Mongo DB Datasets & Schema')
         } else if (Config.EVENT_STORE_DB.APPLY_SCHEMA) {
           await applySchema(mongo, Config.EVENT_STORE_DB.EVENTS_COLLECTION)
-          console.log('Applying Mongo DB Reporting Schema')
+          logger.info('Applying Mongo DB Reporting Schema')
         }
       }
     } catch (err) {
       const message = 'Failed to initialize MongoDB Service: '
-      console.error(message, err)
+      logger.error(message, err)
     } finally {
       await mongo.close()
     }
 
     if (!result) {
       const message = 'Could not initialize MongoDB Service'
-      console.error(message)
+      logger.error(message)
     }
 
     return (this.initialized = result)
@@ -55,10 +56,11 @@ class MongoDBService {
       const collection = await this.saveClient.db().collection(Config.EVENT_STORE_DB.EVENTS_COLLECTION)
 
       await collection.insertMany(records)
+      logger.info(`Inserted ${records.length} records into MongoDB`)
       result = true
     } catch (error) {
-      const newErr = new Error(`Error while attempting to save to Mongodb: ${error.message}\nRecord:\n${JSON.stringify(records)}\n`)
-
+      logger.error(`Error while attempting to save to MongoDB: ${error.message}`, error)
+      const newErr = new Error(`Error while attempting to save to MongoDB: ${error.message}\nRecord:\n${JSON.stringify(records)}\n`)
       newErr.origin = error
 
       throw newErr

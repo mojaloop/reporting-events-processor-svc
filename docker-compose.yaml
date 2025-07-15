@@ -33,7 +33,7 @@ services:
       #   condition: service_completed_successfully
 
   mongodb:
-    image: mongo:6.0.5
+    image: mongo:7.0.15
     ports:
       - "27017:27017"
     networks:
@@ -72,6 +72,35 @@ services:
       retries: 10
       start_period: 40s
       interval: 30s
+
+  init-kafka:
+    container_name: cl_init_kafka
+    image: docker.io/bitnami/kafka:3.5
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - mojaloop-net
+    volumes:
+      - ./docker/kafka/scripts:/tmp/kafka/scripts
+    command: bash /tmp/kafka/scripts/provision.sh
+
+  kafka-debug-ui:
+    image: docker.redpanda.com/redpandadata/console:latest
+    deploy:
+      replicas: 1
+    restart: on-failure
+    hostname: kafka-debug-ui
+    ports:
+      - "8080:8080"
+    networks:
+      - mojaloop-net
+    environment:
+      - KAFKA_BROKERS=kafka:29092
+    depends_on:
+      - kafka
+    profiles:
+      - debug
 
 volumes:
   db-data:

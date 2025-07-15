@@ -3,6 +3,30 @@ const { KafkaService } = require('./services/kafka.service.js')
 const { MongoDBService } = require('./services/mongo-db.service.js')
 const { EventProcessorService } = require('./services/event-processor.service.js')
 const { ConnectionString } = require('connection-string')
+const healthPlugin = require('./plugins/health').plugin
+const { logger } = require('./shared/logger')
+const Hapi = require('@hapi/hapi')
+
+let server
+
+const create = async ({ port }) => {
+  server = new Hapi.Server({ port })
+  await server.register([healthPlugin])
+}
+
+const start = async ({ enabled, port }) => {
+  if (!enabled) return
+  if (!server) await create({ port })
+  await server.start()
+  logger.info(`Monitoring server running at: ${server.info.uri}`)
+}
+
+const stop = async () => {
+  await Promise.all([
+    server.stop(),
+  ])
+  server = null
+}
 
 async function main () {
   console.log('Service Starting')
@@ -41,6 +65,11 @@ async function main () {
   )
 
   eventProcessorService.initialize()
+  await start({
+    enabled: Config.MONITORING.ENABLED,
+    port: Config.MONITORING.PORT
+  })
 }
 
 main().catch(console.dir)
+

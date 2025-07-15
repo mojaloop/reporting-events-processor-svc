@@ -53,6 +53,20 @@ const ConvictConfig = Convict({
       env: 'EVENT_STORE_DB_PARAMS',
     }
   },
+  MONITORING: {
+    ENABLED: {
+      doc: 'Enable monitoring server',
+      format: Boolean,
+      default: true,
+      env: 'MONITORING_ENABLED',
+    },
+    PORT: {
+      doc: 'Port for monitoring server',
+      format: 'port',
+      default: 3000,
+      env: 'MONITORING_PORT',
+    }
+  },
   KAFKA: {
     TOPIC_EVENT: {
       doc: 'TOPIC_EVENT',
@@ -82,6 +96,7 @@ ConvictConfig.validate({ allowed: 'strict' })
 const config = {
   EVENT_STORE_DB: ConvictConfig.get('EVENT_STORE_DB'),
   KAFKA: ConvictConfig.get('KAFKA'),
+  MONITORING: ConvictConfig.get('MONITORING'),
 }
 
 module.exports = config

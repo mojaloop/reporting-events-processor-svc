@@ -15,6 +15,9 @@
     "lint"
   ],
   "dependencies": {
+    "@mojaloop/central-services-health": "^15.1.0",
+    "@mojaloop/central-services-logger": "^11.9.0",
+    "@mojaloop/central-services-shared": "^18.30.0",
     "@mojaloop/central-services-stream": "11.8.2",
     "connection-string": "^4.4.0",
     "convict": "^6.2.4",
