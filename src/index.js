@@ -8,14 +8,19 @@ const { logger } = require('./shared/logger')
 const Hapi = require('@hapi/hapi')
 let server
 
-const create = async ({ port }) => {
+const create = async ({ port, mongoDBService }) => {
   server = new Hapi.Server({ port })
-  await server.register([healthPlugin])
+  await server.register([
+    {
+      plugin: healthPlugin,
+      options: { mongoDBService }
+    }
+  ])
 }
 
-const start = async ({ enabled, port }) => {
+const start = async ({ enabled, port, mongoDBService }) => {
   if (!enabled) return
-  if (!server) await create({ port })
+  if (!server) await create({ port, mongoDBService })
   await server.start()
   logger.info(`Monitoring server running at: ${server.info.uri}`)
 }
@@ -59,9 +64,9 @@ async function main () {
   eventProcessorService.initialize()
   await start({
     enabled: Config.MONITORING.ENABLED,
-    port: Config.MONITORING.PORT
+    port: Config.MONITORING.PORT,
+    mongoDBService
   })
 }
 
 main().catch(console.dir)
-

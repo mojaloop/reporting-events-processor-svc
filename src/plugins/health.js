@@ -7,32 +7,28 @@ const packageJson = require('../../package.json')
 
 let healthCheck
 
-const createHealthCheck = ({ }) => {
+const createHealthCheck = ({ mongoDBService }) => {
   return new HealthCheck(packageJson, [
-    () => getSubServiceHealthDatastore(),
+    () => getSubServiceHealthDatastore(mongoDBService),
     () => getSubServiceHealthBroker()
   ])
 }
 
 const handler = {
-  get: (request, reply) => {
-    healthCheck = healthCheck || createHealthCheck({})
+  get: (mongoDBService) => (request, reply) => {
+    healthCheck = healthCheck || createHealthCheck({ mongoDBService })
     return defaultHealthHandler(healthCheck)(request, reply)
   }
 }
 
-const routes = [
-  {
-    method: 'GET',
-    path: '/health',
-    handler: handler.get
-  }
-]
-
 const plugin = {
   name: 'Health',
-  register (server) {
-    server.route(routes)
+  register (server, options) {
+    server.route([{
+      method: 'GET',
+      path: '/health',
+      handler: handler.get(options.mongoDBService)
+    }])
   }
 }
 

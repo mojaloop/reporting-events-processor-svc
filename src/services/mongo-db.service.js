@@ -77,6 +77,23 @@ class MongoDBService {
       }
     }
   }
+
+  async healthCheck() {
+    let mongo
+    try {
+      mongo = new MongoClient(this.mongoDBConnectionString)
+      await mongo.connect()
+      const res = await mongo.db().command({ ping: 1 })
+      return res.ok === 1
+    } catch (err) {
+      logger.error('MongoDB health check failed:', err)
+      return false
+    } finally {
+      if (mongo) {
+        await mongo.close()
+      }
+    }
+  }
 }
 
 module.exports = { MongoDBService }
