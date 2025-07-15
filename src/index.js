@@ -6,7 +6,6 @@ const { ConnectionString } = require('connection-string')
 const healthPlugin = require('./plugins/health').plugin
 const { logger } = require('./shared/logger')
 const Hapi = require('@hapi/hapi')
-
 let server
 
 const create = async ({ port }) => {
@@ -29,10 +28,10 @@ const stop = async () => {
 }
 
 async function main () {
-  console.log('Service Starting')
+  logger.info('Service Starting')
 
   // Initialize Services
-  console.log('Initializing Services')
+  logger.info('Initializing Services')
 
   // Construct mongodb connection URL
   const csMongoDBObj = new ConnectionString()
