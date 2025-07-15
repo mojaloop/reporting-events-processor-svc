@@ -8,10 +8,11 @@ const { MongoDBService } = require('../../services/mongo-db.service')
 /**
  * @function getSubServiceHealthDatastore
  *
- * @description Gets the health of the Datastore by ensuring the table is currently locked
- * in a migration state. This implicity checks the connection with the database.
+ * @description Checks the health of the MongoDB datastore by attempting to initialize a connection.
+ * If the connection is successful, the status is set to OK; otherwise, it is set to DOWN.
+ * This implicitly verifies connectivity and schema setup for the MongoDB database.
  *
- * @returns Promise<SubServiceHealth> The SubService health object for the datastore
+ * @returns {Promise<{name: string, status: string}>} The SubService health object for the datastore.
  */
 const mongoDbURI = process.env.MONGO_DB_URI
 
