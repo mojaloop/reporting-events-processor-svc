@@ -20,13 +20,6 @@ const start = async ({ enabled, port }) => {
   logger.info(`Monitoring server running at: ${server.info.uri}`)
 }
 
-const stop = async () => {
-  await Promise.all([
-    server.stop(),
-  ])
-  server = null
-}
-
 async function main () {
   logger.info('Service Starting')
 
