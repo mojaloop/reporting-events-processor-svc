@@ -59,6 +59,14 @@ class MongoDBService {
       logger.info(`Inserted ${records.length} records into MongoDB`)
       result = true
     } catch (error) {
+      logger.error(`Error while attempting to save to MongoDB: ${err.message} ${err.stack}`)
+      if (err.writeErrors) {
+        logger.error('MongoDB writeErrors:', JSON.stringify(err.writeErrors, null, 2))
+      }
+      if (err.errorResponse && err.errorResponse.writeErrors) {
+        logger.error('MongoDB errorResponse.writeErrors:', JSON.stringify(err.errorResponse.writeErrors, null, 2))
+      }
+
       logger.error(`Error while attempting to save to MongoDB: ${error.message}`, error)
       const newErr = new Error(`Error while attempting to save to MongoDB: ${error.message}\nRecord:\n${JSON.stringify(records)}\n`)
       newErr.origin = error
