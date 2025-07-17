@@ -9,6 +9,10 @@
     "EVENTS_COLLECTION": "reporting",
     "PARAMS": {}
   },
+  "MONITORING": {
+    "ENABLED": true,
+    "PORT": 3000
+  },
   "KAFKA": {
     "TOPIC_EVENT": "topic-event-audit",
     "CONSUMER": {
