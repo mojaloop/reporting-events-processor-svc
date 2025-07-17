@@ -46,7 +46,7 @@ class MongoDBService {
     return (this.initialized = result)
   }
 
-  async saveToDB (record) {
+  async saveToDB (records) {
     if (!this.saveClient) {
       this.saveClient = new MongoClient(this.mongoDBConnectionString)
       await this.saveClient.connect()
@@ -55,8 +55,8 @@ class MongoDBService {
     try {
       const collection = await this.saveClient.db().collection(Config.EVENT_STORE_DB.EVENTS_COLLECTION)
 
-      await collection.insertOne(record)
-      logger.info('Inserted 1 record into MongoDB')
+      await collection.insertMany(records)
+      logger.info(`Inserted ${records.length} records into MongoDB`)
       result = true
     } catch (error) {
       logger.error(`Error while attempting to save to MongoDB: ${error.message} ${error.stack}`)
@@ -67,8 +67,7 @@ class MongoDBService {
         logger.error('MongoDB errorResponse.writeErrors:', JSON.stringify(error.errorResponse.writeErrors, null, 2))
       }
 
-      const newErr = new Error('Error while attempting to save to MongoDB')
-      newErr.details = { message: error.message, record, stack: error.stack }
+      const newErr = new Error(`Error while attempting to save to MongoDB: ${error.message}\nRecord:\n${JSON.stringify(records)}\n`)
       newErr.origin = error
 
       throw newErr
