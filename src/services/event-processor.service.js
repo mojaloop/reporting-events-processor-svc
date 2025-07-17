@@ -22,7 +22,7 @@ const _getReportingParams = (msg, eventType) => {
   }
   case eventTypes.FXTRANSFER:
   {
-    return getFxTransferParams(msg)      
+    return getFxTransferParams(msg)
   }
   case eventTypes.FXQUOTE:
   {
@@ -72,13 +72,16 @@ class EventProcessorService {
       return this.transformEvent(event, eventType)
     }).filter(Boolean)
 
-    try {
-      if (records.length) await this.mongoDBService.saveToDB(records)
-    } catch (error) {
-      console.error(
-        'Failed to persist kafka event to mongo db',
-        error
-      )
+    for (const record of records) {
+      try {
+        await this.mongoDBService.saveToDB(record)
+      } catch (error) {
+        console.error(
+          'Failed to persist kafka event to mongo db for record:',
+          record,
+          error
+        )
+      }
     }
   }
 
