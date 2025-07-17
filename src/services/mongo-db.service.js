@@ -67,7 +67,8 @@ class MongoDBService {
         logger.error('MongoDB errorResponse.writeErrors:', JSON.stringify(error.errorResponse.writeErrors, null, 2))
       }
 
-      const newErr = new Error(`Error while attempting to save to MongoDB: ${error.message}\nRecord:\n${JSON.stringify(records)}\n`)
+      const newErr = new Error('Error while attempting to save to MongoDB')
+      newErr.details = { message: error.message, record, stack: error.stack }
       newErr.origin = error
 
       throw newErr
