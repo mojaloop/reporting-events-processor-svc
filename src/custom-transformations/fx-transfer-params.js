@@ -11,9 +11,11 @@ const getFxTransferParams = (msg) => {
     }
   }
 
-  if (fxTransferParams.transactionId === undefined) {
-    delete fxTransferParams.transactionId
-  }
+  Object.keys(fxTransferParams).forEach(key => {
+    if (fxTransferParams[key] === undefined) {
+      delete fxTransferParams[key]
+    }
+  })
 
   return fxTransferParams
 }
