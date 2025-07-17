@@ -12,10 +12,6 @@ const { getFxQuoteParams } = require('../custom-transformations/fx-quote-params'
 const _getReportingParams = (msg, eventType) => {
   switch(eventType) {
   case eventTypes.QUOTE:
-  {
-    const quoteId = msg?.metadata?.trace?.tags?.quoteId
-    return quoteId ? { transactionId: quoteId } : {}
-  }
   case eventTypes.TRANSFER:
   {
     const transactionId = msg?.metadata?.trace?.tags?.transactionId
