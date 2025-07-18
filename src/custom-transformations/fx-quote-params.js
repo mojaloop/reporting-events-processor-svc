@@ -13,9 +13,15 @@ const getFxQuoteParams= (msg) => {
       }
     }else if(msg.metadata.trace.tags?.transactionId)
       fxQuoteParams.transactionId = msg.metadata.trace.tags?.transactionId
-  }     
+  }
 
-  return fxQuoteParams 
+  Object.keys(fxQuoteParams).forEach(key => {
+    if (fxQuoteParams[key] === undefined) {
+      delete fxQuoteParams[key]
+    }
+  })
+
+  return fxQuoteParams
 }
 
 module.exports = { getFxQuoteParams }

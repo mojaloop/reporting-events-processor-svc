@@ -14,7 +14,8 @@ const _getReportingParams = (msg, eventType) => {
   case eventTypes.QUOTE:
   case eventTypes.TRANSFER:
   {
-    return { transactionId: msg.metadata.trace.tags.transactionId }
+    const transactionId = msg?.metadata?.trace?.tags?.transactionId
+    return transactionId ? { transactionId } : {}
   }
   case eventTypes.SETTLEMENT:
   {
@@ -22,7 +23,7 @@ const _getReportingParams = (msg, eventType) => {
   }
   case eventTypes.FXTRANSFER:
   {
-    return getFxTransferParams(msg)      
+    return getFxTransferParams(msg)
   }
   case eventTypes.FXQUOTE:
   {

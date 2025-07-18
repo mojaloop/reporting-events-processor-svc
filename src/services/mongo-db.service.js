@@ -59,16 +59,7 @@ class MongoDBService {
       logger.info(`Inserted ${records.length} records into MongoDB`)
       result = true
     } catch (error) {
-      logger.error(`Error while attempting to save to MongoDB: ${error.message} ${error.stack}`)
-      if (error.writeErrors) {
-        logger.error('MongoDB writeErrors:', JSON.stringify(error.writeErrors, null, 2))
-      }
-      if (error.errorResponse && error.errorResponse.writeErrors) {
-        logger.error('MongoDB errorResponse.writeErrors:', JSON.stringify(error.errorResponse.writeErrors, null, 2))
-      }
-
-      logger.error(`Error while attempting to save to MongoDB: ${error.message}`, error)
-      const newErr = new Error(`Error while attempting to save to MongoDB: ${error.message}\nRecord:\n${JSON.stringify(records)}\n`)
+      const newErr = new Error(`Error while attempting to save to MongoDB: ${error.message}\nRecord:\n${JSON.stringify(records, (key, value) => value === undefined ? '__undefined__' : value)}\n`)
       newErr.origin = error
 
       throw newErr

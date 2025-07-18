@@ -16,6 +16,13 @@ const getSettlementReportParams = (msg) => {
       }
     }
   }
+
+  Object.keys(reportingParams).forEach(key => {
+    if (reportingParams[key] === undefined) {
+      delete reportingParams[key]
+    }
+  })
+
   return reportingParams
 }
 
