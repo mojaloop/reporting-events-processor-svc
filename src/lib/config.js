@@ -48,7 +48,17 @@ const ConvictConfig = Convict({
     },
     PARAMS: {
       doc: 'Additional parameters for MongoDB connection',
-      format: Object,
+      format: function(val) {
+        if (typeof val === 'string') {
+          try {
+            JSON.parse(val)
+          } catch (e) {
+            throw new Error('EVENT_STORE_DB_PARAMS must be valid JSON')
+          }
+        } else if (typeof val !== 'object') {
+          throw new Error('EVENT_STORE_DB_PARAMS must be an object or a JSON string')
+        }
+      },
       default: {},
       env: 'EVENT_STORE_DB_PARAMS',
     }
