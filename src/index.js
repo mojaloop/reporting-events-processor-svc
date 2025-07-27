@@ -42,7 +42,11 @@ async function main () {
     params: Config.EVENT_STORE_DB.PARAMS
   })
 
-  const mongoDBService = new MongoDBService(csMongoDBObj.toString())
+  const mongoUri = csMongoDBObj.toString()
+  const mongoDBService = new MongoDBService(mongoUri)
+  logger.debug(`Connecting to MongoDB with URI: ${mongoUri}`);
+  const safeUri = mongoUri.replace(/(\/\/)(.*):(.*)@/, '$1****:****@');
+  logger.info(`Connecting to MongoDB with URI: ${safeUri}`);
   const mongoDBOnline = await mongoDBService.initialize()
 
   if (!mongoDBOnline) {
