@@ -44,7 +44,6 @@ async function main () {
 
   const mongoUri = csMongoDBObj.toString()
   const mongoDBService = new MongoDBService(mongoUri)
-  logger.debug(`Connecting to MongoDB with URI: ${mongoUri}`);
   const safeUri = mongoUri.replace(/(\/\/)(.*):(.*)@/, '$1****:****@');
   logger.info(`Connecting to MongoDB with URI: ${safeUri}`);
   const mongoDBOnline = await mongoDBService.initialize()
