@@ -30,8 +30,7 @@ async function main () {
 
   // Initialize Services
   logger.info('Initializing Services')
-
-  // Construct mongodb connection URL
+  // Construct mongodb connection URL with SSL/TLS support
   const csMongoDBObj = new ConnectionString()
   csMongoDBObj.setDefaults({
     protocol: 'mongodb',
@@ -42,8 +41,24 @@ async function main () {
     params: Config.EVENT_STORE_DB.PARAMS
   })
 
+  // Add SSL/TLS params if enabled
+  let mongoServiceOptions = {}
+  if (Config.EVENT_STORE_DB.SSL_ENABLED) {
+    mongoServiceOptions.tls = true
+    if (typeof Config.EVENT_STORE_DB.SSL_VERIFY !== 'undefined') {
+      mongoServiceOptions.tlsAllowInvalidCertificates = !Config.EVENT_STORE_DB.SSL_VERIFY
+    }
+    if (Config.EVENT_STORE_DB.SSL_CA) {
+      // Pass CA string directly to MongoDB driver options
+      mongoServiceOptions.tlsCA = Config.EVENT_STORE_DB.SSL_CA
+    }
+    // Log options excluding CA
+    const { tlsCA, ...logOptions } = mongoServiceOptions
+    logger.info(`MongoDB TLS options: ${JSON.stringify(logOptions)}`)
+  }
+
   const mongoUri = csMongoDBObj.toString()
-  const mongoDBService = new MongoDBService(mongoUri)
+  const mongoDBService = new MongoDBService(mongoUri, mongoServiceOptions)
   const safeUri = mongoUri.replace(/(\/\/)(.*):(.*)@/, '$1****:****@');
   logger.info(`Connecting to MongoDB with URI: ${safeUri}`);
   const mongoDBOnline = await mongoDBService.initialize()

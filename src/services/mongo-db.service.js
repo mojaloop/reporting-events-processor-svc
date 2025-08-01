@@ -4,15 +4,16 @@ const { createReportingSchema, applySchema } = require('../utilities/mongodb-sch
 const { logger } = require('../shared/logger')
 
 class MongoDBService {
-  constructor (mongoDbURI) {
+  constructor (mongoDbURI, mongoDBServiceOptions = {}) {
     this.initialized = false
     this.mongoDBConnectionString = mongoDbURI || 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000'
+    this.mongoDBServiceOptions = mongoDBServiceOptions
     this.saveClient = false
   }
 
   async initialize () {
     let result = false
-    const mongo = new MongoClient(this.mongoDBConnectionString)
+    const mongo = new MongoClient(this.mongoDBConnectionString, this.mongoDBServiceOptions)
     try {
       await mongo.connect()
 
@@ -48,7 +49,7 @@ class MongoDBService {
 
   async saveToDB (records) {
     if (!this.saveClient) {
-      this.saveClient = new MongoClient(this.mongoDBConnectionString)
+      this.saveClient = new MongoClient(this.mongoDBConnectionString, this.mongoDBServiceOptions)
       await this.saveClient.connect()
     }
     let result = false
@@ -80,7 +81,7 @@ class MongoDBService {
   async healthCheck() {
     let mongo
     try {
-      mongo = new MongoClient(this.mongoDBConnectionString)
+      mongo = new MongoClient(this.mongoDBConnectionString, this.mongoDBServiceOptions)
       await mongo.connect()
       const res = await mongo.db().command({ ping: 1 })
       return res.ok === 1
