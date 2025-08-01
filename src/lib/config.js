@@ -104,11 +104,20 @@ ConvictConfig.loadFile(configFile)
 // Perform configuration validation
 ConvictConfig.validate({ allowed: 'strict' })
 
+if (ConvictConfig.get('EVENT_STORE_DB').SSL_ENABLED || process.env.EVENT_STORE_DB_SSL_ENABLED === 'true') {
+  ConvictConfig.set('EVENT_STORE_DB.SSL_ENABLED', true)
+  ConvictConfig.set('EVENT_STORE_DB.SSL_VERIFY', process.env.EVENT_STORE_DB_SSL_VERIFY !== 'false')
+  if (process.env.EVENT_STORE_DB_SSL_CA) {
+    ConvictConfig.set('EVENT_STORE_DB.SSL_CA', process.env.EVENT_STORE_DB_SSL_CA)
+  }
+}
+
 // extract simplified config from Convict object
 const config = {
   EVENT_STORE_DB: ConvictConfig.get('EVENT_STORE_DB'),
   KAFKA: ConvictConfig.get('KAFKA'),
   MONITORING: ConvictConfig.get('MONITORING'),
+
 }
 
 module.exports = config
