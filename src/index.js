@@ -48,12 +48,12 @@ async function main () {
     if (typeof Config.EVENT_STORE_DB.SSL_VERIFY !== 'undefined') {
       mongoServiceOptions.tlsAllowInvalidCertificates = !Config.EVENT_STORE_DB.SSL_VERIFY
     }
-    if (Config.EVENT_STORE_DB.SSL_CA) {
+    if (Config.EVENT_STORE_DB.SSL_CA_FILE_PATH) {
       // Pass CA string directly to MongoDB driver options
-      mongoServiceOptions.tlsCA = Config.EVENT_STORE_DB.SSL_CA
+      mongoServiceOptions.sslCA = Config.EVENT_STORE_DB.SSL_CA_FILE_PATH
     }
     // Log options excluding CA
-    const { tlsCA, ...logOptions } = mongoServiceOptions
+    const { sslCA, ...logOptions } = mongoServiceOptions
     logger.info(`MongoDB TLS options: ${JSON.stringify(logOptions)}`)
   }
 
