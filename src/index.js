@@ -50,10 +50,10 @@ async function main () {
     }
     if (Config.EVENT_STORE_DB.SSL_CA_FILE_PATH) {
       // Pass CA string directly to MongoDB driver options
-      mongoServiceOptions.sslCA = Config.EVENT_STORE_DB.SSL_CA_FILE_PATH
+      mongoServiceOptions.tlsCAFile = Config.EVENT_STORE_DB.SSL_CA_FILE_PATH
     }
     // Log options excluding CA
-    const { sslCA, ...logOptions } = mongoServiceOptions
+    const { tlsCAFile, ...logOptions } = mongoServiceOptions
     logger.info(`MongoDB TLS options: ${JSON.stringify(logOptions)}`)
   }
 
