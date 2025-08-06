@@ -1,6 +1,6 @@
 {
   "name": "@mojaloop/reporting-events-processor-svc",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "Event processor to store mojaloop kafka events to reporting events db",
   "author": "Mojaloop",
   "contributors": [
