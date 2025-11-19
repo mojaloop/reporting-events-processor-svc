@@ -1,0 +1,5 @@
+## Add a comment indicating the reason for each rejected dependency upgrade added to this list, and what should be done to resolve it (i.e. handle it through a story, etc).
+reject: [
+  "@shelf/jest-mongodb", # v6.0.0 introduced a breaking change requiring @swc/jest transformer
+  "mongodb" # Upgrading to the next major version require a separate task
+]
