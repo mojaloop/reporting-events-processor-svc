@@ -19,7 +19,7 @@
     "@mojaloop/central-services-health": "^15.2.0",
     "@mojaloop/central-services-logger": "^11.10.1",
     "@mojaloop/central-services-shared": "^18.34.4",
-    "@mojaloop/central-services-stream": "11.8.10",
+    "@mojaloop/central-services-stream": "11.8.11-snapshot.1",
     "connection-string": "^5.0.0",
     "convict": "^6.2.4",
     "mongodb": "^6.21.0"
