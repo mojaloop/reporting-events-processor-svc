@@ -48,11 +48,10 @@ const ConvictConfig = Convict({
     },
     PARAMS: {
       doc: 'Additional parameters for MongoDB connection',
-      format: function(val) {
+      format: function (val) {
         if (typeof val === 'string') {
           try {
-            JSON.parse(val)
-            return val
+            return JSON.parse(val)
           } catch (e) {
             throw new Error('EVENT_STORE_DB_PARAMS must be valid JSON')
           }
@@ -79,6 +78,7 @@ const ConvictConfig = Convict({
       env: 'MONITORING_PORT',
     }
   },
+
   KAFKA: {
     TOPIC_EVENT: {
       doc: 'TOPIC_EVENT',

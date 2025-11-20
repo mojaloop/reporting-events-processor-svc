@@ -1,10 +1,10 @@
-const { createHandler } = require('@mojaloop/central-services-stream').Util.Consumer
+const { Consumer } = require('@mojaloop/central-services-stream').Util
 const Config = require('../lib/config')
+const { logger } = require('../shared/logger')
 
 class KafkaService {
   constructor () {
     this.initialized = false
-    this.kafkaClient = undefined
   }
 
   initialize () {
@@ -13,7 +13,10 @@ class KafkaService {
   }
 
   async startConsumer (messageHandleFunction) {
-    await createHandler(Config.KAFKA.TOPIC_EVENT, Config.KAFKA.CONSUMER.EVENT.config, messageHandleFunction)
+    const topic = Config.KAFKA.TOPIC_EVENT
+    const config = Config.KAFKA.CONSUMER.EVENT.config
+    await Consumer.createHandler(topic, config, messageHandleFunction)
+    logger.info('kafka consumer started: ', { topic, config })
   }
 }
 

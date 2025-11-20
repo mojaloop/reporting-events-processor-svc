@@ -1,11 +1,14 @@
-const Config = require('./lib/config')
+const Hapi = require('@hapi/hapi')
+const { ConnectionString } = require('connection-string')
+
+const { name, version } = require('../package.json')
+const { EventProcessorService } = require('./services/event-processor.service.js')
 const { KafkaService } = require('./services/kafka.service.js')
 const { MongoDBService } = require('./services/mongo-db.service.js')
-const { EventProcessorService } = require('./services/event-processor.service.js')
-const { ConnectionString } = require('connection-string')
-const healthPlugin = require('./plugins/health').plugin
 const { logger } = require('./shared/logger')
-const Hapi = require('@hapi/hapi')
+const Config = require('./lib/config')
+const healthPlugin = require('./plugins/health').plugin
+
 let server
 
 const create = async ({ port, mongoDBService }) => {
@@ -26,10 +29,10 @@ const start = async ({ enabled, port, mongoDBService }) => {
 }
 
 async function main () {
-  logger.info('Service Starting')
+  logger.info('Service starting...')
 
   // Initialize Services
-  logger.info('Initializing Services')
+  logger.verbose('Initializing Services')
   // Construct mongodb connection URL with SSL/TLS support
   const csMongoDBObj = new ConnectionString()
   csMongoDBObj.setDefaults({
@@ -42,7 +45,7 @@ async function main () {
   })
 
   // Add SSL/TLS params if enabled
-  let mongoServiceOptions = {}
+  const mongoServiceOptions = {}
   if (Config.EVENT_STORE_DB.SSL_ENABLED) {
     mongoServiceOptions.tls = true
     if (typeof Config.EVENT_STORE_DB.SSL_VERIFY !== 'undefined') {
@@ -53,14 +56,14 @@ async function main () {
       mongoServiceOptions.tlsCAFile = Config.EVENT_STORE_DB.SSL_CA_FILE_PATH
     }
     // Log options excluding CA
-    const { tlsCAFile, ...logOptions } = mongoServiceOptions
-    logger.info(`MongoDB TLS options: ${JSON.stringify(logOptions)}`)
+    const { tlsCAFile, ...mongoOptions } = mongoServiceOptions
+    logger.info('MongoDB TLS options: ', { mongoOptions })
   }
 
   const mongoUri = csMongoDBObj.toString()
   const mongoDBService = new MongoDBService(mongoUri, mongoServiceOptions)
-  const safeUri = mongoUri.replace(/(\/\/)(.*):(.*)@/, '$1****:****@');
-  logger.info(`Connecting to MongoDB with URI: ${safeUri}`);
+  const safeUri = mongoUri.replace(/(\/\/)(.*):(.*)@/, '$1****:****@')
+  logger.info(`Connecting to MongoDB with URI: ${safeUri}`)
   const mongoDBOnline = await mongoDBService.initialize()
 
   if (!mongoDBOnline) {
@@ -78,13 +81,17 @@ async function main () {
     mongoDBService,
     kafkaService
   )
+  await eventProcessorService.initialize()
 
-  eventProcessorService.initialize()
   await start({
     enabled: Config.MONITORING.ENABLED,
     port: Config.MONITORING.PORT,
     mongoDBService
   })
+
+  logger.info(`${name}@${version} is started`)
 }
 
-main().catch(console.dir)
+main().catch(err => {
+  logger.error('error starting service: ', err)
+})

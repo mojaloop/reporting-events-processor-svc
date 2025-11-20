@@ -17,7 +17,8 @@ module.exports = [
       ecmaVersion: 2021,
       sourceType: 'commonjs',
       globals: {
-        ...require('globals').node
+        ...require('globals').node,
+        ...require('globals').jest
       }
     },
     rules: {
@@ -28,4 +29,4 @@ module.exports = [
       'semi': ['error', 'never']
     }
   }
-] 
+]

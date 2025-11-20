@@ -58,7 +58,7 @@ describe('Event Processor Service', () => {
   })
 
   it('Determine transformation of fxTransfer message', () => {
-    const msg = ml_fxTransfer_prepare 
+    const msg = ml_fxTransfer_prepare
 
     const transformed = transformEvent(msg, eventTypes.FXTRANSFER)
     expect(transformed).toHaveProperty('event')
@@ -113,7 +113,7 @@ describe('Event Processor Service', () => {
   })
 
   it('Determine eventType: FXQUOTE', () => {
-    const msg = qs_fxQuote_forwardFxQuoteUpdate 
+    const msg = qs_fxQuote_forwardFxQuoteUpdate
 
     const determined = determineEventType(msg)
     expect(determined).toEqual(eventTypes.FXQUOTE)
@@ -136,7 +136,7 @@ describe('Event Processor Service', () => {
     eventProcessor.messageHandler(undefined, messageArgs);
     expect(eventProcessor).toBeDefined();
   })
-  
+
   it('Message handler: Success qs_fxQuote_forwardFxQuoteUpdate', () => {
 
     const messageArgs = {
@@ -212,13 +212,13 @@ describe('Event Processor Service', () => {
     expect(() => eventProcessor.messageHandler(new Error('test error'))).rejects.toThrow();
   })
 
-  it('initialize', () => {
+  it('initialize', async () => {
 
     const spyStartConsumer = jest
       .spyOn(kafkaService, 'startConsumer')
       .mockImplementation((props) => { eventProcessor.messageHandler(undefined, props) });
 
-    const result = eventProcessor.initialize();
+    const result = await eventProcessor.initialize();
 
     expect(result).toEqual(true)
     spyStartConsumer.mockReset();
