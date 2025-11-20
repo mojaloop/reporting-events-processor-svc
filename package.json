@@ -40,7 +40,8 @@
   },
   "overrides": {
     "js-yaml": ">=4.1.1",
-    "sanitize-html": ">=2.12.1"
+    "sanitize-html": ">=2.12.1",
+    "@mojaloop/central-services-stream": "11.8.11-snapshot.1"
   },
   "scripts": {
     "start": "node --unhandled-rejections=strict src/index.js",
