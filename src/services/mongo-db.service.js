@@ -49,6 +49,10 @@ class MongoDBService {
     let result = false
 
     try {
+      if (!this.mongoClient) {
+        throw new Error('MongoDB client is not initialized, call initialize() first!')
+      }
+
       const collection = await this.mongoClient.db().collection(Config.EVENT_STORE_DB.EVENTS_COLLECTION)
       await collection.insertMany(records)
       this.log.info(`Inserted records into MongoDB  [count: ${records.length}]`)

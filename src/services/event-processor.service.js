@@ -1,3 +1,4 @@
+const { randomUUID } = require('node:crypto')
 const { Binary } = require('mongodb')
 
 const Config = require('../lib/config')
@@ -128,7 +129,7 @@ class EventProcessorService {
     return this.transformEvent(event, eventType)
   }
 
-  static uuidToBson(uuid) {
+  static uuidToBson(uuid = randomUUID()) {
     return new Binary(Buffer.from(uuid.replace(/-/g, ''), 'hex'), Binary.SUBTYPE_UUID)
   }
 }
