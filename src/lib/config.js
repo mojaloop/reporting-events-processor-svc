@@ -51,8 +51,7 @@ const ConvictConfig = Convict({
       format: function (val) {
         if (typeof val === 'string') {
           try {
-            JSON.parse(val)
-            return val
+            return JSON.parse(val)
           } catch (e) {
             throw new Error('EVENT_STORE_DB_PARAMS must be valid JSON')
           }

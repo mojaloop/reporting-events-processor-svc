@@ -1,3 +1,5 @@
+const { Binary } = require('mongodb')
+
 const Config = require('../lib/config')
 const { quotesConstants } = require('../constants/quote-constants')
 const { transferConstants } = require('../constants/transfer-constants')
@@ -85,6 +87,7 @@ class EventProcessorService {
   transformEvent (msg, eventType) {
     const reportingParams = _getReportingParams(msg, eventType)
     return {
+      _id: EventProcessorService.uuidToBson(msg.id),
       event: msg,
       metadata: {
         reporting: {
@@ -97,7 +100,7 @@ class EventProcessorService {
 
   parseOneEvent (message) {
     if (message.topic !== Config.KAFKA.TOPIC_EVENT) {
-      this.log.debug('skip message processing from incorrect topic')
+      this.log.verbose('skip message processing from incorrect topic')
       return
     }
 
@@ -111,18 +114,22 @@ class EventProcessorService {
     }
 
     if (!this.isAudit(event)) {
-      this.log.debug('skip audit event')
+      this.log.verbose('skip non-audit event')
       return
     }
 
     const eventType = this.determineEventType(event)
 
     if (eventType === eventTypes.UNSUPPORTED) {
-      this.log.debug('skip unsupported eventType')
+      this.log.verbose('skip unsupported eventType')
       return
     }
 
     return this.transformEvent(event, eventType)
+  }
+
+  static uuidToBson(uuid) {
+    return new Binary(Buffer.from(uuid.replace(/-/g, ''), 'hex'), Binary.SUBTYPE_UUID)
   }
 }
 
