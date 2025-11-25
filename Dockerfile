@@ -12,7 +12,7 @@ RUN npm ci
 
 COPY src /opt/app/src
 COPY config /opt/app/config
-COPY test /opt/app/test
+# COPY test /opt/app/test
 
 FROM node:lts-alpine
 WORKDIR /opt/app

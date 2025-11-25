@@ -13,7 +13,7 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     volumes:
-      - ./config:/opt/reporting-events-processor-svc/config
+      - ./config:/opt/app/config
     user: root
     environment:
       - EVENT_STORE_DB_HOST=mongodb
@@ -23,9 +23,10 @@ services:
       - EVENT_STORE_DB_DATABASE=reporting
       - EVENT_STORE_DB_EVENTS_COLLECTION=reporting
       - KAFKA_BROKER_LIST=kafka:29092
-      - KAFKA_TOPIC_EVENT=reporting_events_processor_consumer_group
+      - KAFKA_TOPIC_EVENT=topic-event-audit
       - KAFKA_CONSUMER_GROUP=reporting_events_processor_consumer_group
       - KAFKA_CLIENT_ID=topic-event
+      - LOG_LEVEL=debug
     depends_on:
       mongodb:
         condition: service_healthy
@@ -48,7 +49,7 @@ services:
   kafka:
     networks:
       - mojaloop-net
-    image: docker.io/bitnami/kafka:3.9.0
+    image: docker.io/bitnamilegacy/kafka:3.9.0
     ports:
       - "9092:9092"
     environment:
@@ -75,7 +76,7 @@ services:
 
   init-kafka:
     container_name: cl_init_kafka
-    image: docker.io/bitnami/kafka:3.5
+    image: docker.io/bitnamilegacy/kafka:3.9.0
     depends_on:
       kafka:
         condition: service_healthy
@@ -99,8 +100,8 @@ services:
       - KAFKA_BROKERS=kafka:29092
     depends_on:
       - kafka
-    profiles:
-      - debug
+#    profiles:
+#      - debug
 
 volumes:
   db-data:
